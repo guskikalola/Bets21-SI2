@@ -1,0 +1,4 @@
+/target/
+bets.temp
+bets.temp$
+*.log
