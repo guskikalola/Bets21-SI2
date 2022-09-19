@@ -51,12 +51,14 @@ public class ApustuakEginGUI extends JFrame {
 
 	private static ApustuakEginGUI frame;
 
-	private final JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
-	private final JLabel jLabelQueries = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries"));
-	private final JLabel jLabelKuota = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Kuota"));
-	private final JLabel jLabelEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Events"));
+	private final String etiketak = "Etiquetas";
+	
+	private final JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle(etiketak).getString("EventDate"));
+	private final JLabel jLabelQueries = new JLabel(ResourceBundle.getBundle(etiketak).getString("Queries"));
+	private final JLabel jLabelKuota = new JLabel(ResourceBundle.getBundle(etiketak).getString("Kuota"));
+	private final JLabel jLabelEvents = new JLabel(ResourceBundle.getBundle(etiketak).getString("Events"));
 
-	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
+	private JButton jButtonClose = new JButton(ResourceBundle.getBundle(etiketak).getString("Close"));
 
 	// Code for JCalendar
 	private JCalendar jCalendar1 = new JCalendar();
@@ -76,21 +78,21 @@ public class ApustuakEginGUI extends JFrame {
 	private DefaultTableModel tableModelQueries;
 	private DefaultTableModel tableModelKuotak;
 
-	private String[] columnNamesEvents = new String[] { ResourceBundle.getBundle("Etiquetas").getString("EventN"),
-			ResourceBundle.getBundle("Etiquetas").getString("Event"),
+	private String[] columnNamesEvents = new String[] { ResourceBundle.getBundle(etiketak).getString("EventN"),
+			ResourceBundle.getBundle(etiketak).getString("Event"),
 
 	};
-	private String[] columnNamesQueries = new String[] { ResourceBundle.getBundle("Etiquetas").getString("QueryN"),
-			ResourceBundle.getBundle("Etiquetas").getString("Query")
+	private String[] columnNamesQueries = new String[] { ResourceBundle.getBundle(etiketak).getString("QueryN"),
+			ResourceBundle.getBundle(etiketak).getString("Query")
 
 	};
-	private String[] columnNamesKuota = new String[] { ResourceBundle.getBundle("Etiquetas").getString("KuotaN"),
-			ResourceBundle.getBundle("Etiquetas").getString("Kuota")
+	private String[] columnNamesKuota = new String[] { ResourceBundle.getBundle(etiketak).getString("KuotaN"),
+			ResourceBundle.getBundle(etiketak).getString("Kuota")
 
 	};
 	private final JTextField kantitateaTextField = new JTextField();
-	private final JLabel lblFee = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Amount")); //$NON-NLS-1$ //$NON-NLS-2$
-	private final JButton btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Create")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final JLabel lblFee = new JLabel(ResourceBundle.getBundle(etiketak).getString("Amount")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final JButton btnNewButton = new JButton(ResourceBundle.getBundle(etiketak).getString("Create")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private String aukera;
 	private double kantitatea;
@@ -99,7 +101,7 @@ public class ApustuakEginGUI extends JFrame {
 	private ArrayList<Kuota> kuotaList = new ArrayList<Kuota>();
 	private Question selectedQuestion;
 	private Kuota selectedKuota;
-	private final JLabel KuotakLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Kuota")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final JLabel KuotakLabel = new JLabel(ResourceBundle.getBundle(etiketak).getString("Kuota")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private DefaultComboBoxModel<Kuota> kuotaComboBox;
 
@@ -115,7 +117,7 @@ public class ApustuakEginGUI extends JFrame {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(827, 518));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("Apustu"));
+		this.setTitle(ResourceBundle.getBundle(etiketak).getString("Apustu"));
 
 		jLabelEventDate.setBounds(new Rectangle(89, 15, 140, 25));
 		jLabelQueries.setBounds(21, 210, 259, 14);
@@ -184,10 +186,10 @@ public class ApustuakEginGUI extends JFrame {
 						Vector<domain.Event> events = facade.getEvents(firstDay);
 
 						if (events.isEmpty())
-							jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents") + ": "
+							jLabelEvents.setText(ResourceBundle.getBundle(etiketak).getString("NoEvents") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
 						else
-							jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("Events") + ": "
+							jLabelEvents.setText(ResourceBundle.getBundle(etiketak).getString("Events") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
 						for (domain.Event ev : events) {
 							Vector<Object> row = new Vector<Object>();
@@ -231,9 +233,9 @@ public class ApustuakEginGUI extends JFrame {
 				tableModelQueries.setColumnCount(3);
 				if (queries.isEmpty())
 					jLabelQueries.setText(
-							ResourceBundle.getBundle("Etiquetas").getString("NoQueries") + ": " + ev.getDescription());
+							ResourceBundle.getBundle(etiketak).getString("NoQueries") + ": " + ev.getDescription());
 				else
-					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectedEvent") + " "
+					jLabelQueries.setText(ResourceBundle.getBundle(etiketak).getString("SelectedEvent") + " "
 							+ ev.getDescription());
 
 				questionList = new ArrayList<Question>();
@@ -264,9 +266,9 @@ public class ApustuakEginGUI extends JFrame {
 				tableModelKuotak.setDataVector(null, columnNamesKuota);
 
 				if (kuotak.isEmpty())
-					jLabelKuota.setText(ResourceBundle.getBundle("Etiquetas").getString("NoKuota"));
+					jLabelKuota.setText(ResourceBundle.getBundle(etiketak).getString("NoKuota"));
 				else
-					jLabelKuota.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectedKuota"));
+					jLabelKuota.setText(ResourceBundle.getBundle(etiketak).getString("SelectedKuota"));
 
 				kuotaList = new ArrayList<Kuota>();
 				for (domain.Kuota k : kuotak) {
@@ -333,21 +335,20 @@ public class ApustuakEginGUI extends JFrame {
 					double kantitatea = Double.parseDouble(kantitateaTextField.getText());
 					Erabiltzailea er = (Erabiltzailea) MainGUI.getLoginErabiltzailea();
 					if (kantitatea <= 0)
-						KuotakLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("errorea_ez_da_zenbakia"));
+						KuotakLabel.setText(ResourceBundle.getBundle(etiketak).getString("errorea_ez_da_zenbakia"));
 					else {
 						if (er != null) {
-							try {
-								Apustua apus = facade.apustuaEgin(er, selectedKuota, kantitatea);
-								KuotakLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Kuota"));
-							} catch (ApustuaEzDaEgin err) {
-								String testua = err.getMessage();
-								if(testua.equals("errorea_minimoa_gainditu")) {
-									KuotakLabel.setText(ResourceBundle.getBundle("Etiquetas").getString(testua) + "(min: " + selectedKuota.getQuestion().getBetMinimum() + ")" );
-								} else {
-									KuotakLabel.setText(ResourceBundle.getBundle("Etiquetas").getString(testua));
-								}
-							}
+							Apustua apus = facade.apustuaEgin(er, selectedKuota, kantitatea);
+							KuotakLabel.setText(ResourceBundle.getBundle(etiketak).getString("Kuota"));
 						}
+					}
+				} catch (ApustuaEzDaEgin err) {
+					String testua = err.getMessage();
+					if (testua.equals("errorea_minimoa_gainditu")) {
+						KuotakLabel.setText(ResourceBundle.getBundle(etiketak).getString(testua) + "(min: "
+								+ selectedKuota.getQuestion().getBetMinimum() + ")");
+					} else {
+						KuotakLabel.setText(ResourceBundle.getBundle(etiketak).getString(testua));
 					}
 				} catch (NumberFormatException err) {
 					// Ez egin ezer

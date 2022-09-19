@@ -338,7 +338,6 @@ public class DataAccess {
 
 	private boolean adinaDu(Date jaiotzeData) {
 		Calendar gaur = Calendar.getInstance();
-		// TODO: Aldatu
 		int urteDif = Math.abs(gaur.get(Calendar.YEAR) - jaiotzeData.getYear());
 		int hilbDif = gaur.get(Calendar.MONTH) - jaiotzeData.getMonth();
 
@@ -405,12 +404,10 @@ public class DataAccess {
 		query.setParameter(1, data);
 		query.setParameter(2, deskripzioa);
 		List<Event> eventsList = query.getResultList();
-		if (eventsList.isEmpty()) {
-			return false;
-		} else {
-			return true;
-		}
-
+		
+		boolean hutsikDago = eventsList.isEmpty();
+		
+		return !hutsikDago;
 	}
 
 	private Event createEvent(Date data, String deskripzioa) {
