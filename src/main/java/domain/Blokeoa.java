@@ -83,10 +83,9 @@ public class Blokeoa {
 	}
 	
 	public boolean arrazoiaZuzenaDa(String arrazoia) {
-		if(arrazoia.length()>=ARRAZOIAMIN && arrazoia.length()<=ARRAZOIAMAX){
-			return true;
-		}
-		return false;
+		
+		return (arrazoia.length()>=ARRAZOIAMIN && arrazoia.length()<=ARRAZOIAMAX);
+		
 	}
 	
 
