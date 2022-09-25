@@ -28,7 +28,7 @@ public class ApplicationLauncher {
 		MainGUI a = new MainGUI();
 		a.setVisible(true);
 
-		// TODO : Begiratu
+	
 		// LoginGUI lG = new LoginGUI();
 		// lG.setVisible(true);
 
