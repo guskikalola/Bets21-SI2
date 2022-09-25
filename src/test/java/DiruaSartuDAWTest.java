@@ -24,9 +24,15 @@ public class DiruaSartuDAWTest {
 
 	static DataAccess dbManager;
 
-	Erabiltzailea er1, er2, er3, er4;
-	Admin ad1;
-	Blokeoa bl1;
+	static Erabiltzailea er1;
+
+	static Erabiltzailea er2;
+
+	static Erabiltzailea er3;
+
+	static Erabiltzailea er4;
+	static Admin ad1;
+	static Blokeoa bl1;
 
 	@BeforeClass
 	public static void initializeDB() {
@@ -38,79 +44,36 @@ public class DiruaSartuDAWTest {
 			dbManager.initializeDB();
 		} else
 			dbManager = new DataAccess();
-		dbManager.close();
-	}
-
-	@Before
-	public void open() {
-
-		dbManager.open(false);
+		
 		// Erabiltzaileak sortu
 		
-		// Erabiltzaile honek ez erregitratua egon behar 
-		er1 = new  Erabiltzailea();
-		er1.setIzena("erab1");
-	
-		er2 = (Erabiltzailea) dbManager.erregistratu("erab2", "1234", new Date(2000, 01, 01));
-		er3 = (Erabiltzailea) dbManager.erregistratu("erab3", "1234", new Date(2000, 01, 01));
-		er4 = (Erabiltzailea) dbManager.erregistratu("erab4", "1234", new Date(2000, 01, 01));
-
-		Admin ad1 = new Admin("admin2", "pass", new Date());
-
-		
-		//dbManager.diruaSartu(er2, "1234", 10.0);
-		
-	/*	Pertsona  erab3= dbManager.getErabiltzailea("erab3");
-		try {
-			dbManager.erabiltzaileaBlokeatu(ad1, (Erabiltzailea)erab3, null);
-		} catch (MezuaEzDaZuzena e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
-		//		ad1 = new Admin("ad1", "1324", new Date(2000, 01, 01));
-
-		//Pertsona erab3 = 
-		
-		//bl1 = new Blokeoa(ad1, er3, "lapurreta");
-			//	er3.blokeoaGehitu(bl1);
-		
-	/*	try {
-		
-		dbManager.erabiltzaileaBlokeatu(ad1, er3, "lapurreta");
-		
-		} catch(MezuaEzDaZuzena e) {
+				// Erabiltzaile honek ez erregitratua egon behar 
+				er1 = new  Erabiltzailea();
+				er1.setIzena("erab1");
 			
-			e.printStackTrace();
+				er2 = (Erabiltzailea) dbManager.erregistratu("erab2", "1234", new Date(2000, 01, 01));
+				er3 = (Erabiltzailea) dbManager.erregistratu("erab3", "1234", new Date(2000, 01, 01));
+				er4 = (Erabiltzailea) dbManager.erregistratu("erab4", "1234", new Date(2000, 01, 01));
 			
-		}*/
-		
-		
-		/*
-		 * ad1.blokeoaGehituListan(bl1);
-		 * 
-		 * er3.blokeoaGehitu(bl1);
-		 */
-		/*
-		 * dbManager.diruaSartu(erab1, "a", 10.0); dbManager.diruaSartu(erab2, "a",
-		 * 12.0); dbManager.diruaSartu(erab3, "a", 143.0);
-		 */
+				Admin ad1 = new Admin("admin2", "pass", new Date());
 
-		/*
-		 * // Gertaera eskuratu Event ev1 = dbManager.getEventById(1);
-		 * 
-		 * // Galdera sortu try { q1 = dbManager.createQuestion(ev1, "probak", 0); }
-		 * catch (QuestionAlreadyExist e4) { e4.printStackTrace(); }
-		 */
-		// Kuotak sortu
-		/*
-		 * k1 = dbManager.ipiniKuota(q1, "a", 1);
-		 * 
-		 * try { // Apustuak sortu ap1 = dbManager.apustuaEgin(e1, k1, 10.0); ap2 =
-		 * dbManager.apustuaEgin(e2, k1, 12.0); ap3 = dbManager.apustuaEgin(e3, k1,
-		 * 143.0); } catch (ApustuaEzDaEgin e) { e.printStackTrace(); }
-		 */
+				try {
+					dbManager.erabiltzaileaBlokeatu(ad1, er3, null);
+				} catch (MezuaEzDaZuzena e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			
+		dbManager.close();
 	}
+	
+	
+	@Before
+	public void open() {
+		dbManager.open(false);
+	}
+
 
 	@After
 	public void close() {
@@ -122,7 +85,6 @@ public class DiruaSartuDAWTest {
 		
 		boolean expected = false;
 		boolean actual = dbManager.diruaSartu(er1, "1234", 2.0);
-		
 		assertEquals(expected, actual);
 	
 		
@@ -132,7 +94,6 @@ public class DiruaSartuDAWTest {
 	public void diruaSartuTest2() {
 		boolean expected = false;
 		boolean actual = dbManager.diruaSartu(er2, "12345", 2.0);
-		//System.out.println("emaitza da " + actual);
 		assertEquals(expected, actual);
 
 	}
@@ -152,15 +113,10 @@ public class DiruaSartuDAWTest {
 		System.out.println(dbManager.getErabiltzailea("erab4").getIzena());
 
 		boolean expected = true;
-		boolean actual = dbManager.diruaSartu(er4, "12345", 2.0);
-
-		Double expected2 = 2.0;
+		boolean actual = dbManager.diruaSartu(er4, "1234", 22.0);
 
 		assertEquals(expected, actual);
-		Double actual2 = er4.getSaldoa();
-
-		assertEquals(expected2, actual2);
-
+	
 	}
 
 }
