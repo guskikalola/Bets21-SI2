@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class DataAccess {
 				month = 0;
 				year += 1;
 			}
-
+			
 			Event ev1 = new Event(1, "Atlético-Athletic", UtilDate.newDate(year, month, 17));
 			Event ev2 = new Event(2, "Eibar-Barcelona", UtilDate.newDate(year, month, 17));
 			Event ev3 = new Event(3, "Getafe-Celta", UtilDate.newDate(year, month, 17));
@@ -204,6 +205,18 @@ public class DataAccess {
 			e.printStackTrace();
 		}
 	}
+	
+	// NOTE: ApustuaEzabatu probarako
+	public boolean emaitzaEzabatu(Question q, Kuota k) {
+		db.getTransaction().begin();
+		
+		Question qDB = db.find(Question.class, q.getQuestionNumber());
+		qDB.setResult(null);
+		
+		db.getTransaction().commit();
+		
+		return !qDB.emaitzaDu();
+	}
 
 	/**
 	 * This method creates a question for an event, with a question text and the
@@ -306,6 +319,12 @@ public class DataAccess {
 			db = emf.createEntityManager();
 		}
 
+	}
+	
+	// Probak egiteko
+	public Event getEventById(int id) {
+		Event ev = db.find(Event.class, id);
+		return ev;
 	}
 
 	public boolean existQuestion(Event event, String question) {
@@ -518,6 +537,7 @@ public class DataAccess {
 		Apustua aDB = db.find(Apustua.class, a.getApustuZenbakia());
 		if (aDB != null) {
 			Erabiltzailea erDB = aDB.getErabiltzailea();
+			
 			if (erDB.getIzena().equals(er.getIzena()) && aDB.ezabatuDaiteke() && erDB.getBlokeoa() == null) {
 				List<Kuota> kDBLista = aDB.getKuotak();
 				Double diruKop = aDB.getDiruKop();
