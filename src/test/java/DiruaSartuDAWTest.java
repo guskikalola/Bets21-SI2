@@ -110,8 +110,6 @@ public class DiruaSartuDAWTest {
 	@Test
 	public void diruaSartuTest4() {
 		
-		System.out.println(dbManager.getErabiltzailea("erab4").getIzena());
-
 		boolean expected = true;
 		boolean actual = dbManager.diruaSartu(er4, "1234", 22.0);
 
