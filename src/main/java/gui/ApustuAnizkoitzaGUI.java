@@ -46,10 +46,12 @@ public class ApustuAnizkoitzaGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private static ApustuAnizkoitzaGUI frame;
+	
+	private final String kuota = "Kuota";
 
 	private final JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
 	private final JLabel jLabelQueries = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries"));
-	private final JLabel jLabelKuota = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Kuota"));
+	private final JLabel jLabelKuota = new JLabel(ResourceBundle.getBundle("Etiquetas").getString(kuota));
 	private final JLabel jLabelEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Events"));
 
 	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
@@ -84,12 +86,12 @@ public class ApustuAnizkoitzaGUI extends JFrame {
 
 	};
 	private String[] columnNamesKuota = new String[] { ResourceBundle.getBundle("Etiquetas").getString("KuotaN"),
-			ResourceBundle.getBundle("Etiquetas").getString("Kuota")
+			ResourceBundle.getBundle("Etiquetas").getString(kuota)
 
 	};
 
 	private String[] columnNamesAukerak = new String[] { ResourceBundle.getBundle("Etiquetas").getString("KuotaN"),
-			ResourceBundle.getBundle("Etiquetas").getString("Kuota") };
+			ResourceBundle.getBundle("Etiquetas").getString(kuota) };
 
 	private final JTextField kantitateaTextField = new JTextField();
 	private final JLabel lblFee = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Amount")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -99,7 +101,7 @@ public class ApustuAnizkoitzaGUI extends JFrame {
 	private ArrayList<Question> questionList = new ArrayList<Question>();
 	private ArrayList<Kuota> kuotaList = new ArrayList<Kuota>();
 	private Kuota selectedKuota;
-	private final JLabel KuotakLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Kuota")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final JLabel KuotakLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString(kuota)); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private final JButton btnGehituKuota; // $NON-NLS-1$ //$NON-NLS-2$
 
@@ -158,7 +160,6 @@ public class ApustuAnizkoitzaGUI extends JFrame {
 					calendarAnt = (Calendar) propertychangeevent.getOldValue();
 					calendarAct = (Calendar) propertychangeevent.getNewValue();
 					DateFormat dateformat1 = DateFormat.getDateInstance(1, jCalendar1.getLocale());
-//					jCalendar1.setCalendar(calendarAct);
 					Date firstDay = UtilDate.trim(new Date(jCalendar1.getCalendar().getTime().getTime()));
 
 					int monthAnt = calendarAnt.get(Calendar.MONTH);
@@ -361,7 +362,7 @@ public class ApustuAnizkoitzaGUI extends JFrame {
 									Apustua apus = facade.apustuAnizkoitzaEgin(er, kuotaLista, kantitatea);
 									if (apus != null) {
 										tableModelAukerak.setDataVector(null, columnNamesAukerak);
-										KuotakLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Kuota"));
+										KuotakLabel.setText(ResourceBundle.getBundle("Etiquetas").getString(kuota));
 										System.out.println("Apustua eginda");
 									}
 								}
@@ -409,7 +410,7 @@ public class ApustuAnizkoitzaGUI extends JFrame {
 		btnGehituKuota.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				KuotakLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Kuota"));
+				KuotakLabel.setText(ResourceBundle.getBundle("Etiquetas").getString(kuota));
 				selectedRow = tableKuota.getSelectedRow();
 				if (selectedRow != -1) {
 					selectedKuota = kuotaList.get(selectedRow);
