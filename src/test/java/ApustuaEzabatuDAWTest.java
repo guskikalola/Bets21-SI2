@@ -15,6 +15,7 @@ import domain.Apustua;
 import domain.Erabiltzailea;
 import domain.Event;
 import domain.Kuota;
+import domain.Mugimendua;
 import domain.Pertsona;
 import domain.Question;
 import exceptions.ApustuaEzDaEgin;
@@ -163,7 +164,15 @@ public class ApustuaEzabatuDAWTest {
 		boolean expected = true;
 		boolean obtained = dbManager.apustuaEzabatu(ap1, e1);
 		assertEquals(expected, obtained);	
-		// TODO : Mugimendua sortu dela konprobatu
+		
+		Erabiltzailea eDB = (Erabiltzailea)dbManager.getErabiltzailea("e1");
+		
+		Mugimendua m = eDB.getMugimenduak().get(eDB.getMugimenduak().size() - 1);
+		
+		String expectedMessage = "apustua_ezabatuta";
+		String obtainedMessage = m.getArrazoia();
+		
+		assertEquals(expectedMessage, obtainedMessage);
 		
 		// Hasierako egoerara bueltatu
 		try {
