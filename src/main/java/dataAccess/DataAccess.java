@@ -206,18 +206,6 @@ public class DataAccess {
 			e.printStackTrace();
 		}
 	}
-	
-	// NOTE: ApustuaEzabatu probarako
-	public boolean emaitzaEzabatu(Question q, Kuota k) {
-		db.getTransaction().begin();
-		
-		Question qDB = db.find(Question.class, q.getQuestionNumber());
-		qDB.setResult(null);
-		
-		db.getTransaction().commit();
-		
-		return !qDB.emaitzaDu();
-	}
 
 	/**
 	 * This method creates a question for an event, with a question text and the
@@ -321,12 +309,7 @@ public class DataAccess {
 		}
 
 	}
-	
-	// Probak egiteko
-	public Event getEventById(int id) {
-		Event ev = db.find(Event.class, id);
-		return ev;
-	}
+
 
 	public boolean existQuestion(Event event, String question) {
 		System.out.println(">> DataAccess: existQuestion=> event= " + event + " question= " + question);
@@ -859,37 +842,6 @@ public class DataAccess {
 
 		db.getTransaction().commit();
 		return emaitza;
-	}
-
-	// Testak egiteko
-	public boolean mezuaEzabatu(Pertsona p2, int mezuaZenbakia) {
-		db.getTransaction().begin();
-		Iterator<Mezua> it = p2.getBidalitakoMezuak().iterator();
-		boolean ezabatuta = false;
-		Mezua ezabatutakoa = null;
-		while(it.hasNext() && !ezabatuta) {
-			Mezua m = it.next();
-			if(m.getMezuaZenbakia().equals(mezuaZenbakia)) {
-				it.remove();
-				ezabatuta = true;
-				ezabatutakoa = m;				
-			}
-		}
-		
-		Iterator<Mezua> it2 = ezabatutakoa.getNori().getJasotakoMezuak().iterator();
-		boolean ezabatuta2 = false;
-		Mezua ezabatutakoa2 = null;
-		while(it2.hasNext() && !ezabatuta2) {
-			Mezua m = it2.next();
-			if(m.getMezuaZenbakia().equals(mezuaZenbakia)) {
-				it2.remove();
-				ezabatuta2 = true;
-				ezabatutakoa2 = m;				
-			}
-		}
-		
-		db.getTransaction().commit();
-		return ezabatuta && ezabatuta2;
 	}
 
 }
