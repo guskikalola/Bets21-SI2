@@ -43,6 +43,8 @@ import exceptions.QuestionAlreadyExist;
 public class DataAccess {
 	protected static EntityManager db;
 	protected static EntityManagerFactory emf;
+	public boolean hasieratuta = false;
+
 
 	ConfigXML c = ConfigXML.getInstance();
 
@@ -66,10 +68,9 @@ public class DataAccess {
 	 * dataBaseOpenMode of resources/config.xml file
 	 */
 	public void initializeDB() {
-
 		db.getTransaction().begin();
 		try {
-
+			
 			Calendar today = Calendar.getInstance();
 
 			int month = today.get(Calendar.MONTH);

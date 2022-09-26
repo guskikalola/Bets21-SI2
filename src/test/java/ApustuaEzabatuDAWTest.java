@@ -92,6 +92,9 @@ public class ApustuaEzabatuDAWTest {
 	@Before
 	public void open() {
 		dbManager.open(false);
+		e1 = (Erabiltzailea) dbManager.getErabiltzailea("e1");
+		e2 = (Erabiltzailea) dbManager.getErabiltzailea("e2");
+		e3 = (Erabiltzailea) dbManager.getErabiltzailea("e3");
 	}
 	
 	@After
@@ -145,11 +148,12 @@ public class ApustuaEzabatuDAWTest {
 	public void apustuaEzabatuTest5() {
 		boolean expected = true;
 		boolean obtained = dbManager.apustuaEzabatu(ap1, e1);
-		assertEquals(expected, obtained);
+		assertEquals(expected, obtained);	
 		
 		// Hasierako egoerara bueltatu
 		try {
 			ap1 = dbManager.apustuaEgin(e1, k1, 10.0);
+			// TODO : Mugimendua sortu dela konprobatu
 		} catch (ApustuaEzDaEgin e) {
 			fail(e.getMessage());
 		}
