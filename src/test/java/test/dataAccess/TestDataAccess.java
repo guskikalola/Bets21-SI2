@@ -152,7 +152,7 @@ public class TestDataAccess {
 			return eDB.getMugimenduak().size() == 0;
 		}
 		
-		public boolean removePertsona(int izena) {
+		public boolean removePertsona(String izena) {
 			db.getTransaction().begin();
 			
 			Pertsona p = db.find(Pertsona.class, izena);
