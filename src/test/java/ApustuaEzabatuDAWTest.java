@@ -21,15 +21,21 @@ import exceptions.ApustuaEzDaEgin;
 import exceptions.EmaitzaEzinIpini;
 import exceptions.MezuaEzDaZuzena;
 import exceptions.QuestionAlreadyExist;
+import test.dataAccess.TestDataAccess;
 
 public class ApustuaEzabatuDAWTest {
 
-	static DataAccess dbManager;
 	static Apustua ap1, ap2, ap3;
 	static Erabiltzailea e1, e2, e3;
 	static Kuota k1, k2;
 	static Event ev1;
 	static Question q1, q2;
+	
+	 //sut:system under test
+	 static DataAccess dbManager;
+	 
+	 //additional operations needed to execute the test 
+	 static TestDataAccess testDA;
 
 	@BeforeClass
 	public static void initializeDB() {
@@ -42,6 +48,7 @@ public class ApustuaEzabatuDAWTest {
 		} else
 			dbManager = new DataAccess();
 		
+		testDA=new TestDataAccess();
 		
 		// Erabiltzaileak sortu
 		e1 = (Erabiltzailea) dbManager.erregistratu("e1", "a", new Date());
@@ -53,7 +60,8 @@ public class ApustuaEzabatuDAWTest {
 		dbManager.diruaSartu(e3, "a", 143.0);
 		
 		// Gertaera eskuratu
-		ev1 = dbManager.getEventById(1);
+		ev1 = testDA.getEventById(1);
+		testDA.close();
 		
 		// Galdera sortu
 		try {
@@ -87,6 +95,11 @@ public class ApustuaEzabatuDAWTest {
 
 		
 		dbManager.close();
+	}
+	
+	@AfterClass
+	public static void ezabatu() {
+		
 	}
 	
 	@Before
@@ -131,9 +144,10 @@ public class ApustuaEzabatuDAWTest {
 		boolean obtained = dbManager.apustuaEzabatu(ap2, e1);
 		
 		// Emaitza ezabatu aurreko egoerara bueltatzeko
-		boolean ezabatuta = dbManager.emaitzaEzabatu(q2,k1);
+		testDA.open();
+		boolean ezabatuta = testDA.emaitzaEzabatu(q2,k1);
 		if(!ezabatuta) fail("Ezin izan da emaitza ezabatu");
-		
+		testDA.close();
 		assertEquals(expected, obtained);
 	}
 	
@@ -149,11 +163,16 @@ public class ApustuaEzabatuDAWTest {
 		boolean expected = true;
 		boolean obtained = dbManager.apustuaEzabatu(ap1, e1);
 		assertEquals(expected, obtained);	
+		// TODO : Mugimendua sortu dela konprobatu
 		
 		// Hasierako egoerara bueltatu
 		try {
 			ap1 = dbManager.apustuaEgin(e1, k1, 10.0);
-			// TODO : Mugimendua sortu dela konprobatu
+			testDA.open();
+			boolean ezabatutak = testDA.mugimenduGuztiakEzabatu(e1);
+			testDA.close();
+			assertTrue(ezabatutak);
+			System.out.println("Size:"+e1.getMugimenduak().size());
 		} catch (ApustuaEzDaEgin e) {
 			fail(e.getMessage());
 		}
