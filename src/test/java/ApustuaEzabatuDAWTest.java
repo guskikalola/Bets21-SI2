@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import configuration.ConfigXML;
+import configuration.UtilDate;
 import dataAccess.*;
 import domain.Admin;
 import domain.Apustua;
@@ -62,6 +63,7 @@ public class ApustuaEzabatuDAWTest {
 		
 		// Gertaera eskuratu
 		ev1 = testDA.getEventById(1);
+		ev1 = testDA.addEventWithQuestion("test",  UtilDate.newDate(2023, 5, 17), "test", 1);
 		testDA.close();
 		
 		// Galdera sortu
@@ -100,7 +102,16 @@ public class ApustuaEzabatuDAWTest {
 	
 	@AfterClass
 	public static void ezabatu() {
+		// Erabiltzaileak ezabatu
+		testDA.open();
+		testDA.removePertsona("e1");
+		testDA.removePertsona("e2");
+		testDA.removePertsona("e3");
 		
+		// Gertaera ezabatu
+		testDA.removeEvent(ev1);
+		
+		testDA.close();
 	}
 	
 	@Before
