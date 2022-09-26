@@ -62,7 +62,6 @@ public class ApustuaEzabatuDAWTest {
 		dbManager.diruaSartu(e3, "a", 143.0);
 		
 		// Gertaera eskuratu
-		ev1 = testDA.getEventById(1);
 		ev1 = testDA.addEventWithQuestion("test",  UtilDate.newDate(2023, 5, 17), "test", 1);
 		testDA.close();
 		
