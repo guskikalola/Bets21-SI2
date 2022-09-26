@@ -29,7 +29,7 @@ public class ApustuaEzabatuDAWTest {
 
 	static Apustua ap1, ap2, ap3;
 	static Erabiltzailea e1, e2, e3;
-	static Kuota k1, k2;
+	static Kuota k1, k2, k3;
 	static Event ev1;
 	static Question q1, q2;
 	
@@ -76,6 +76,7 @@ public class ApustuaEzabatuDAWTest {
 		// Kuotak sortu
 		k1 = dbManager.ipiniKuota(q1, "a", 1);
 		k2 = dbManager.ipiniKuota(q2, "a", 1);
+		k3 = dbManager.ipiniKuota(q2, "c", 1);
 		
 		try {
 			// Apustuak sortu
@@ -146,7 +147,7 @@ public class ApustuaEzabatuDAWTest {
 	public void apustuaEzabatuTest3() {
 		// Emaitza ipini apustua ezin ezabatzeko
 		try {
-			dbManager.emaitzaIpini(q2, k1);
+			dbManager.emaitzaIpini(q2, k3);
 		} catch (EmaitzaEzinIpini e4) {
 			e4.printStackTrace();
 		}
@@ -184,13 +185,18 @@ public class ApustuaEzabatuDAWTest {
 		
 		assertEquals(expectedMessage, obtainedMessage);
 		
+		double expectedMoney = 10;
+		double obatainedMoney = eDB.getSaldoa();
+		
+		assertEquals(expectedMoney, obatainedMoney,0);
+		
 		// Hasierako egoerara bueltatu
 		try {
 			ap1 = dbManager.apustuaEgin(e1, k1, 10.0);
 			testDA.open();
 			boolean ezabatutak = testDA.mugimenduGuztiakEzabatu(e1);
 			testDA.close();
-			assertTrue(ezabatutak);
+			if(!ezabatutak) fail("Ezin izan dira ezabatu mugimenduak");
 			System.out.println("Size:"+e1.getMugimenduak().size());
 		} catch (ApustuaEzDaEgin e) {
 			fail(e.getMessage());
