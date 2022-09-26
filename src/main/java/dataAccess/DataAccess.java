@@ -860,4 +860,35 @@ public class DataAccess {
 		return emaitza;
 	}
 
+	// Testak egiteko
+	public boolean mezuaEzabatu(Pertsona p2, int mezuaZenbakia) {
+		db.getTransaction().begin();
+		Iterator<Mezua> it = p2.getBidalitakoMezuak().iterator();
+		boolean ezabatuta = false;
+		Mezua ezabatutakoa = null;
+		while(it.hasNext() && !ezabatuta) {
+			Mezua m = it.next();
+			if(m.getMezuaZenbakia().equals(mezuaZenbakia)) {
+				it.remove();
+				ezabatuta = true;
+				ezabatutakoa = m;				
+			}
+		}
+		
+		Iterator<Mezua> it2 = ezabatutakoa.getNori().getJasotakoMezuak().iterator();
+		boolean ezabatuta2 = false;
+		Mezua ezabatutakoa2 = null;
+		while(it2.hasNext() && !ezabatuta2) {
+			Mezua m = it2.next();
+			if(m.getMezuaZenbakia().equals(mezuaZenbakia)) {
+				it2.remove();
+				ezabatuta2 = true;
+				ezabatutakoa2 = m;				
+			}
+		}
+		
+		db.getTransaction().commit();
+		return ezabatuta && ezabatuta2;
+	}
+
 }
