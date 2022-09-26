@@ -17,6 +17,7 @@ import dataAccess.*;
 import domain.Admin;
 import domain.Blokeoa;
 import domain.Erabiltzailea;
+import domain.Mugimendua;
 import domain.Pertsona;
 import exceptions.MezuaEzDaZuzena;
 import test.dataAccess.TestDataAccess;
@@ -49,7 +50,7 @@ public class DiruaSartuDAWTest {
 		// Erabiltzaile honek ez erregitratua egon behar du
 		er1 = new Erabiltzailea();
 		er1.setIzena("erab1");
-		
+
 		// Erabiltzaileak sortu
 		er2 = (Erabiltzailea) dbManager.erregistratu("erab2", "1234", new Date(2000, 01, 01));
 		er3 = (Erabiltzailea) dbManager.erregistratu("erab3", "1234", new Date(2000, 01, 01));
@@ -73,17 +74,18 @@ public class DiruaSartuDAWTest {
 
 	@After
 	public void close() {
-		
+
 	}
-	
+
 	@AfterClass
 	public static void ezabatu() {
-		
+		testDA.open();
 		assertTrue(testDA.removePertsona("erab2"));
 		assertTrue(testDA.removePertsona("erab3"));
-		assertTrue(testDA.removePertsona("erab4"));	
+		assertTrue(testDA.removePertsona("erab4"));
+		testDA.close();
+
 	}
-	
 
 	@Test
 	public void diruaSarrtuTest1() {
@@ -91,7 +93,6 @@ public class DiruaSartuDAWTest {
 		boolean expected = false;
 		boolean actual = dbManager.diruaSartu(er1, "1234", 2.0);
 		assertEquals(expected, actual);
-
 	}
 
 	@Test
@@ -99,27 +100,52 @@ public class DiruaSartuDAWTest {
 		boolean expected = false;
 		boolean actual = dbManager.diruaSartu(er2, "12345", 2.0);
 		assertEquals(expected, actual);
-
 	}
 
 	@Test
 	public void diruaSartuTest3() {
 		boolean expected = false;
 		boolean actual = dbManager.diruaSartu(er3, "1234", 2.0);
-
 		assertEquals(expected, actual);
-
 	}
 
 	@Test
 	public void diruaSartuTest4() {
 
+		// metodoaren emaitza
 		boolean expected = true;
 		boolean actual = dbManager.diruaSartu(er4, "1234", 22.0);
-
+		// dirua ondo sartu dela frogatu
 		assertEquals(expected, actual);
+
+		// Aldaketa saldoan
+		double expectedSaldoa = 22.0;
+		double actualSaldoa = dbManager.getErabiltzaileaIzenarekin("erab4").getSaldoa();
+		// Diru kantitatea zuzena dela frogatu
+		assertTrue((int) expectedSaldoa == (int) actualSaldoa);
+
 		
+		// Mugimendua egon dela frogatu
 		
+		String expectedMezua = "dirua_sartu";
+	
+		er4 = (Erabiltzailea) dbManager.getErabiltzailea("erab4");
+
+		Mugimendua m1 = er4.getMugimenduak().get(er4.getMugimenduak().size() - 1);
+		String actualMezua = m1.getArrazoia();
+		
+		assertTrue(expectedMezua.equals(actualMezua));
+
+		// datu basean saldoa zegoen moduan utzi eta ezabatu mugimentdua
+		expectedSaldoa = 0.0;
+		testDA.open();
+		actualSaldoa = testDA.saldoaAldatu(er4, 0.0);
+		expected = testDA.mugimenduGuztiakEzabatu(er4);
+		testDA.close();
+		assertTrue(expected);
+		//System.out.println("Saldoa bukaeran " + dbManager.getErabiltzaileaIzenarekin("erab4").getSaldoa());
+		//TODO saldoaAldatu konprobatu
+		assertEquals(expectedSaldoa, actualSaldoa,0);
 
 	}
 
