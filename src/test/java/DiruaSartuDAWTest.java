@@ -124,9 +124,7 @@ public class DiruaSartuDAWTest {
 		// Diru kantitatea zuzena dela frogatu
 		assertTrue((int) expectedSaldoa == (int) actualSaldoa);
 
-		
 		// Mugimendua egon dela frogatu
-		
 		String expectedMezua = "dirua_sartu";
 	
 		er4 = (Erabiltzailea) dbManager.getErabiltzailea("erab4");
@@ -136,16 +134,12 @@ public class DiruaSartuDAWTest {
 		
 		assertTrue(expectedMezua.equals(actualMezua));
 
-		// datu basean saldoa zegoen moduan utzi eta ezabatu mugimentdua
+		// Datu basean saldoa ezabatu mugimentdua
 		expectedSaldoa = 0.0;
 		testDA.open();
-		actualSaldoa = testDA.saldoaAldatu(er4, 0.0);
 		expected = testDA.mugimenduGuztiakEzabatu(er4);
 		testDA.close();
 		assertTrue(expected);
-		//System.out.println("Saldoa bukaeran " + dbManager.getErabiltzaileaIzenarekin("erab4").getSaldoa());
-		//TODO saldoaAldatu konprobatu
-		assertEquals(expectedSaldoa, actualSaldoa,0);
 
 	}
 
