@@ -31,8 +31,8 @@ public class DiruaSartuIntTest {
 		//sut= new BLFacadeImplementation();
 		
 		// you can parametrize the DataAccess used by BLFacadeImplementation
-		//DataAccess da= new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
-		DataAccess da= new DataAccess();
+		DataAccess da= new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
+		//DataAccess da= new DataAccess();
 
 		sut=new BLFacadeImplementation(da);
 		
