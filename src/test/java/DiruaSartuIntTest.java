@@ -38,32 +38,18 @@ public class DiruaSartuIntTest {
 		
 		testBL= new TestFacadeImplementation();
 		
-		er1 = (Erabiltzailea) dbManager.erregistratu("erab1", "1234", new Date(2000, 01, 01));
-
+		er1 = (Erabiltzailea) sut.erregistratu("erab1", "1234", new Date(2000, 01, 01));
 		
-	}
+
 		// Erabiltzailea sortu
 
 
 	}
 
-	@Before
-	public void open() {
-		dbManager.open(false);
-	}
-
-	@After
-	public void close() {
-		dbManager.close();
-	}
 
 	@AfterClass
 	public static void ezabatu() {
-
-		testDA.open();
-		assertTrue(testDA.removePertsona("erab1"));
-		testDA.close();
-
+		assertTrue(testBL.removePertsona("ereab1"));
 	}
 
 	@Test
@@ -71,19 +57,19 @@ public class DiruaSartuIntTest {
 
 		// metodoaren irteera zuzena
 		boolean expected = true;
-		boolean actual = dbManager.diruaSartu(er1, "1234", 2.0);
+		boolean actual = sut.diruaSartu(er1, "1234", 2.0);
 		assertEquals(expected, actual);
 
 		// Dirua modu egokian sartu zaio erabiltzaileari
 		Double expectedSaldoa = 2.0;
-		Double actualSaldoa = dbManager.getErabiltzaileaIzenarekin("erab1").getSaldoa();
+		Double actualSaldoa = sut.getErabiltzailea("erab1").getSaldoa();
 		assertEquals(expectedSaldoa, actualSaldoa, 0);
 
 		String expectedMezua = "dirua_sartu";
 		String actualMezua;
 
-		er1 = (Erabiltzailea) dbManager.getErabiltzailea("erab1");
-
+		er1 = (Erabiltzailea) sut.getErabiltzailea("erab1");
+		
 		Mugimendua m1 = er1.getMugimenduak().get(er1.getMugimenduak().size() - 1);
 		actualMezua = m1.getArrazoia();
 
@@ -95,7 +81,7 @@ public class DiruaSartuIntTest {
 	public void diruaSartuTest11() {
 
 		boolean expected = false;
-		boolean actual = dbManager.diruaSartu(er1, "12345", 0.0);
+		boolean actual = sut.diruaSartu(er1, "12345", 0.0);
 		assertEquals(expected, actual);
 	}
 
@@ -103,7 +89,8 @@ public class DiruaSartuIntTest {
 	public void diruaSartuTest12() {
 
 		boolean expected = false;
-		boolean actual = dbManager.diruaSartu(er1, "12345", -1.0);
+		boolean actual = sut.diruaSartu(er1, "12345", -1.0);
+
 		assertEquals(expected, actual);
 	}
 
@@ -111,7 +98,7 @@ public class DiruaSartuIntTest {
 	public void diruaSartuTest2() {
 
 		boolean expected = false;
-		boolean actual = dbManager.diruaSartu(null, "12345", 2.0);
+		boolean actual = sut.diruaSartu(null, "12345",2.0);
 		assertEquals(expected, actual);
 	}
 
@@ -119,7 +106,7 @@ public class DiruaSartuIntTest {
 	public void diruaSartuTest3() {
 
 		boolean expected = false;
-		boolean actual = dbManager.diruaSartu(er1, null, 2.0);
+		boolean actual = sut.diruaSartu(er1, null, 2.0);
 		assertEquals(expected, actual);
 	}
 
