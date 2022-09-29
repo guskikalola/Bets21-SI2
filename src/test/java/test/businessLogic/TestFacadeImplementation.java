@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import configuration.ConfigXML;
+import domain.Admin;
 import domain.Erabiltzailea;
 import domain.Event;
 import domain.Kuota;
@@ -93,6 +94,14 @@ public class TestFacadeImplementation {
 		dbManagerTest.close();
 		return d;
 
+	}
+
+	public Admin getAdmin(String string) {
+		dbManagerTest.open();
+		Admin p = dbManagerTest.getAdmin(string);
+		dbManagerTest.close();
+
+		return p;
 	}
 
 }

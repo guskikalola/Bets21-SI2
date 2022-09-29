@@ -10,6 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import configuration.ConfigXML;
+import domain.Admin;
 import domain.Erabiltzailea;
 import domain.Event;
 import domain.Kuota;
@@ -176,6 +177,18 @@ public class TestDataAccess {
 			db.getTransaction().commit();
 			
 			return eDB.getSaldoa();
+		}
+
+
+		public Admin getAdmin(String string) {
+			db.getTransaction().begin();
+			
+			Admin aDB = db.find(Admin.class, string);
+			
+			db.getTransaction().commit();
+			
+			return aDB;
+			
 		}
 		
 }
