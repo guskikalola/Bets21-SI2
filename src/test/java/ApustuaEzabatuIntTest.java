@@ -20,6 +20,7 @@ import domain.Apustua;
 import domain.Erabiltzailea;
 import domain.Event;
 import domain.Kuota;
+import domain.Mugimendua;
 import domain.Question;
 import exceptions.ApustuaEzDaEgin;
 import exceptions.EmaitzaEzinIpini;
@@ -150,6 +151,21 @@ public class ApustuaEzabatuIntTest {
 		boolean expected = true;
 		boolean obtained = sut.apustuaEzabatu(ap1, e1);
 		
+		assertEquals(expected, obtained);
+		
+		Erabiltzailea eDB = (Erabiltzailea) sut.getErabiltzailea("e1");
+		
+		Mugimendua m = eDB.getMugimenduak().get(eDB.getMugimenduak().size() - 1);
+		String expected_message = "apustua_ezabatuta";
+		String obtained_message = m.getArrazoia();
+		
+		assertEquals(expected_message, obtained_message);
+		
+		double expected_money = 10;
+		double obtained_money = eDB.getSaldoa();
+		
+		assertEquals(expected_money, obtained_money,0);
+		
 		// Hasierako egoerara bueltatu ( Apustua berriro sortu )
 		try {
 			ap1 = sut.apustuaEgin(e1, k1, 10.0);
@@ -167,6 +183,19 @@ public class ApustuaEzabatuIntTest {
 		boolean obtained = sut.apustuaEzabatu(ap1, e1);
 
 		assertEquals(expected, obtained);
+		
+		Erabiltzailea eDB = (Erabiltzailea) sut.getErabiltzailea("e1");
+		
+		Mugimendua m = eDB.getMugimenduak().get(eDB.getMugimenduak().size() - 1);
+		String expected_message = "apustua_ezabatuta";
+		String obtained_message = m.getArrazoia();
+		
+		assertEquals(expected_message, obtained_message);
+		
+		double expected_money = 10;
+		double obtained_money = eDB.getSaldoa();
+		
+		assertEquals(expected_money, obtained_money,0);
 
 		// Hasierako egoerara bueltatu ( Apustua berriro sortu )
 		try {
