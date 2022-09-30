@@ -1,5 +1,8 @@
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.After;
@@ -17,6 +20,7 @@ import domain.Apustua;
 import domain.Erabiltzailea;
 import domain.Event;
 import domain.Kuota;
+import domain.Mugimendua;
 import domain.Question;
 import exceptions.ApustuaEzDaEgin;
 import exceptions.EmaitzaEzinIpini;
@@ -30,12 +34,20 @@ public class ApustuaEzabatuIntTest {
 	static BLFacadeImplementation sut;
 	static TestFacadeImplementation testBL;
 
-	static Apustua ap1, ap2, ap3;
+	static Apustua ap1, ap2, ap3, ap5;
 	static Erabiltzailea e1, e2, e3;
 	static Kuota k1, k2, k3;
-	static Event ev1;
-	static Question q1, q2;
+	static Event ev1,ev2,ev3;
+	static Question q1, q2, q3;
 
+    public static Date addDays(Date date, int days)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
+    }
+	
 	@BeforeClass
 	public static void initialize() {
 		// sut= new BLFacadeImplementation();
@@ -53,32 +65,44 @@ public class ApustuaEzabatuIntTest {
 		e2 = (Erabiltzailea) sut.erregistratu("e2", "a", new Date());
 		e3 = (Erabiltzailea) sut.erregistratu("e3", "a", new Date());
 
-		sut.diruaSartu(e1, "a", 22.0);
+		sut.diruaSartu(e1, "a", 32.0);
 		sut.diruaSartu(e3, "a", 143.0);
 
 		// Gertaera eskuratu
-		ev1 = testBL.addEventWithQuestion("test", UtilDate.newDate(2023, 5, 17), "test", 1);
-
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now(); 
+		int eguna = now.getDayOfMonth();
+		int hilabetea = now.getMonthValue() - 1;
+		int urtea = now.getYear();
+		
+		Date gaur = UtilDate.newDate(urtea, hilabetea, eguna);
+		Date ev1Date = addDays(gaur, 1);
+		
+		Date ev2Date = addDays(gaur, 0);
+		
+		Date ev3Date = addDays(gaur, -1);
+	
+		ev1 = testBL.addEventWithQuestion("test", ev1Date, "probak", 0);
+		ev2 = testBL.addEventWithQuestion("test2", ev2Date, "probak", 0);
+		ev3 = testBL.addEventWithQuestion("test3", ev3Date, "probak", 0);
+		
 		// Galdera sortu
-		try {
-			q1 = sut.createQuestion(ev1, "probak", 0);
-			q2 = sut.createQuestion(ev1, "probak2", 0);
-		} catch (QuestionAlreadyExist e4) {
-			e4.printStackTrace();
-		} catch (EventFinished e) {
-			e.printStackTrace();
-		}
+		q1 = ev1.getQuestions().get(0);
+		q2 = ev2.getQuestions().get(0);
+		q3 = ev3.getQuestions().get(0);
 
 		// Kuotak sortu
 		k1 = sut.ipiniKuota(q1, "a", 1);
 		k2 = sut.ipiniKuota(q2, "a", 1);
-		k3 = sut.ipiniKuota(q2, "c", 1);
+		k3 = sut.ipiniKuota(q3, "c", 1);
+
 
 		try {
 			// Apustuak sortu
 			ap1 = sut.apustuaEgin(e1, k1, 10.0);
 			ap2 = sut.apustuaEgin(e1, k2, 12.0);
 			ap3 = sut.apustuaEgin(e3, k1, 143.0);
+			ap5 = sut.apustuaEgin(e1, k3, 10.0);
 		} catch (ApustuaEzDaEgin e) {
 			e.printStackTrace();
 		}
@@ -110,6 +134,8 @@ public class ApustuaEzabatuIntTest {
 
 		// Gertaera ezabatu
 		testBL.removeEvent(ev1);
+		testBL.removeEvent(ev2);
+		testBL.removeEvent(ev3);
 
 	}
 
@@ -125,6 +151,21 @@ public class ApustuaEzabatuIntTest {
 		boolean expected = true;
 		boolean obtained = sut.apustuaEzabatu(ap1, e1);
 		
+		assertEquals(expected, obtained);
+		
+		Erabiltzailea eDB = (Erabiltzailea) sut.getErabiltzailea("e1");
+		
+		Mugimendua m = eDB.getMugimenduak().get(eDB.getMugimenduak().size() - 1);
+		String expected_message = "apustua_ezabatuta";
+		String obtained_message = m.getArrazoia();
+		
+		assertEquals(expected_message, obtained_message);
+		
+		double expected_money = 10;
+		double obtained_money = eDB.getSaldoa();
+		
+		assertEquals(expected_money, obtained_money,0);
+		
 		// Hasierako egoerara bueltatu ( Apustua berriro sortu )
 		try {
 			ap1 = sut.apustuaEgin(e1, k1, 10.0);
@@ -134,6 +175,55 @@ public class ApustuaEzabatuIntTest {
 		} catch (ApustuaEzDaEgin e) {
 			fail(e.getMessage());
 		}
+	}
+	
+	@Test
+	public void apustuaEzabatuMB1() {
+		boolean expected = true;
+		boolean obtained = sut.apustuaEzabatu(ap1, e1);
+
+		assertEquals(expected, obtained);
+		
+		Erabiltzailea eDB = (Erabiltzailea) sut.getErabiltzailea("e1");
+		
+		Mugimendua m = eDB.getMugimenduak().get(eDB.getMugimenduak().size() - 1);
+		String expected_message = "apustua_ezabatuta";
+		String obtained_message = m.getArrazoia();
+		
+		assertEquals(expected_message, obtained_message);
+		
+		double expected_money = 10;
+		double obtained_money = eDB.getSaldoa();
+		
+		assertEquals(expected_money, obtained_money,0);
+
+		// Hasierako egoerara bueltatu ( Apustua berriro sortu )
+		try {
+			ap1 = sut.apustuaEgin(e1, k1, 10.0);
+			boolean ezabatutak = testBL.mugimenduGuztiakEzabatu(e1);
+			if (!ezabatutak)
+				fail("Ezin izan dira ezabatu mugimenduak");
+		} catch (ApustuaEzDaEgin e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void apustuaEzabatuMB2() {
+		boolean expected = false;
+		boolean obtained = sut.apustuaEzabatu(ap2, e1);
+
+		assertEquals(expected, obtained);
+
+	}
+	
+	@Test
+	public void apustuaEzabatuMB3() {
+		boolean expected = false;
+		boolean obtained = sut.apustuaEzabatu(ap5, e1);
+
+		assertEquals(expected, obtained);
+
 	}
 	
 	@Test
