@@ -28,17 +28,12 @@ public class DiruaSartuIntTest {
 
 	@BeforeClass
 	public static void setUpClass() {
-		// sut= new BLFacadeImplementation();
 
 		// you can parametrize the DataAccess used by BLFacadeImplementation
 		DataAccess da = new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
-		// DataAccess da= new DataAccess();
 
 		sut = new BLFacadeImplementation(da);
-
 		testBL = new TestFacadeImplementation();
-
-	//	er1 = (Erabiltzailea) sut.erregistratu("erab1", "1234", new Date(2000, 01, 01));
 
 		// Erabiltzailea sortu
 		er1 = (Erabiltzailea) sut.erregistratu("erab1", "1234", new Date(2000, 01, 01));
@@ -46,7 +41,7 @@ public class DiruaSartuIntTest {
 		er3 = (Erabiltzailea) sut.erregistratu("erab3", "1234", new Date(2000, 01, 01));
 		er4 = (Erabiltzailea) sut.erregistratu("erab4", "1234", new Date(2000, 01, 01));
 
-		 Admin ad1 = testBL.getAdmin("admin");
+		Admin ad1 = testBL.getAdmin("admin");
 
 		try {
 			sut.erabiltzaileaBlokeatu(ad1, er4, null);
@@ -94,7 +89,7 @@ public class DiruaSartuIntTest {
 
 			expected = testBL.mugimenduGuztiakEzabatu(er1);
 			assertTrue(expected);
-			//TODO setSaldoa konpondu
+			// TODO setSaldoa konpondu
 			er1.setSaldoa(0.0);
 			assertTrue(sut.getErabiltzailea("erab1").getSaldoa() == 0.0);
 
