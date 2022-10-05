@@ -1,4 +1,3 @@
-
 import static org.junit.Assert.*;
 
 import java.util.Date;
@@ -14,6 +13,7 @@ import domain.Admin;
 import domain.Erabiltzailea;
 import domain.Mezua;
 import exceptions.MezuaEzDaZuzena;
+import test.dataAccess.TestDataAccess;
 import dataAccess.*;
 
 public class MezuaBidaliDAWTest {
@@ -22,6 +22,7 @@ public class MezuaBidaliDAWTest {
 	static Erabiltzailea p1;
 	static Erabiltzailea p2;
 	static Admin p3;
+	static TestDataAccess testDA;
 	
 	@BeforeClass
 	public static void initializeDB() {
@@ -65,7 +66,7 @@ public class MezuaBidaliDAWTest {
 		} finally {
 			// Ezabatu mezua
 			if ( m != null ) {
-				boolean ezabatuta = dbManager.mezuaEzabatu(p1,m.getMezuaZenbakia());
+				boolean ezabatuta = testDA.mezuaEzabatu(p1,m.getMezuaZenbakia());
 				if(!ezabatuta) fail("ezin izan da ezabatu");
 			}
 		}
@@ -113,7 +114,7 @@ public class MezuaBidaliDAWTest {
 		
 		// Ezabatu mezua
 		if ( m != null ) {
-			boolean ezabatuta = dbManager.mezuaEzabatu(p1,m.getMezuaZenbakia());
+			boolean ezabatuta = testDA.mezuaEzabatu(p1,m.getMezuaZenbakia());
 			if(!ezabatuta) fail("ezin izan da ezabatu");
 		}
 	}
