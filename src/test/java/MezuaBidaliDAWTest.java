@@ -12,6 +12,7 @@ import configuration.ConfigXML;
 import domain.Admin;
 import domain.Erabiltzailea;
 import domain.Mezua;
+import domain.Pertsona;
 import exceptions.MezuaEzDaZuzena;
 import test.dataAccess.TestDataAccess;
 import dataAccess.*;
@@ -34,9 +35,21 @@ public class MezuaBidaliDAWTest {
 			dbManager.initializeDB();
 		} else 
 			dbManager = new DataAccess();
+		
+		testDA=new TestDataAccess();
+		
+		
 		p1 = (Erabiltzailea)dbManager.erregistratu("e1", "a", new Date());
 		p2= (Erabiltzailea)dbManager.erregistratu("e2", "a", new Date());
 		p3 = (Admin)dbManager.getErabiltzailea("admin");
+		testDA.close();
+
+		try {
+			dbManager.erabiltzaileaBlokeatu(p3, p1, "aaa");
+		} catch (MezuaEzDaZuzena e) {
+			fail(e.getMessage());
+		}
+		
 		dbManager.close();
 	}
 	
@@ -66,7 +79,9 @@ public class MezuaBidaliDAWTest {
 		} finally {
 			// Ezabatu mezua
 			if ( m != null ) {
+				testDA.open();
 				boolean ezabatuta = testDA.mezuaEzabatu(p1,m.getMezuaZenbakia());
+				testDA.close();
 				if(!ezabatuta) fail("ezin izan da ezabatu");
 			}
 		}
@@ -100,11 +115,7 @@ public class MezuaBidaliDAWTest {
 	@Test
 	public void mezuaBidaliTest4() {
 		Mezua m = null;
-		try {
-			dbManager.erabiltzaileaBlokeatu(p3, p1, "aaa");
-		} catch (MezuaEzDaZuzena e) {
-			fail(e.getMessage());
-		}
+
 		try {
 			m = dbManager.mezuaBidali(p1, p3, "kaixo");
 		} catch (MezuaEzDaZuzena e) {
@@ -114,18 +125,15 @@ public class MezuaBidaliDAWTest {
 		
 		// Ezabatu mezua
 		if ( m != null ) {
+			testDA.open();
 			boolean ezabatuta = testDA.mezuaEzabatu(p1,m.getMezuaZenbakia());
+			testDA.close();
 			if(!ezabatuta) fail("ezin izan da ezabatu");
 		}
 	}
 	
 	@Test
 	public void mezuaBidaliTest5() {
-		try {
-			dbManager.erabiltzaileaBlokeatu(p3, p1, "aaa");
-		} catch (MezuaEzDaZuzena e) {
-			fail(e.getMessage());
-		}
 		try {
 			dbManager.mezuaBidali(p1, p2, "kaixo");
 		} catch (MezuaEzDaZuzena e) {
