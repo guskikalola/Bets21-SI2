@@ -1,7 +1,7 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,15 +9,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import configuration.ConfigXML;
+import dataAccess.DataAccess;
 import domain.Admin;
+import domain.Blokeoa;
 import domain.Erabiltzailea;
 import domain.Mezua;
-import domain.Pertsona;
 import exceptions.MezuaEzDaZuzena;
 import test.dataAccess.TestDataAccess;
-import dataAccess.*;
 
-public class MezuaBidaliDAWTest {
+public class MezuaBidaliDABTest {
 
 	static DataAccess dbManager;
 	static Erabiltzailea e1;
@@ -35,12 +35,12 @@ public class MezuaBidaliDAWTest {
 			dbManager.initializeDB();
 		} else 
 			dbManager = new DataAccess();
-		testDA=new TestDataAccess();
+		testDA = new TestDataAccess();
 		e1 = (Erabiltzailea)dbManager.erregistratu("e1", "a", new Date());
 		e2 = (Erabiltzailea)dbManager.erregistratu("e2", "a", new Date());
 		a1 = (Admin)dbManager.getErabiltzailea("admin");
 		testDA.close();
-
+		
 		try {
 			dbManager.erabiltzaileaBlokeatu(a1, e2, "aaa");
 		} catch (MezuaEzDaZuzena e) {
@@ -64,40 +64,17 @@ public class MezuaBidaliDAWTest {
 	}
 	
 	@Test
-	public void mezuaBidaliTest1() {
-		try {
-			dbManager.mezuaBidali(e1, a1, "k");
-			fail();
-		} catch (MezuaEzDaZuzena e) {
-			String expected = "Short_message";
-			String obtained = e.getMessage();
-			assertEquals(expected, obtained);
-		}
-	}
-	
-	@Test
-	public void mezuaBidaliTest2()  {
-		try {
-			dbManager.mezuaBidali(e1, a1, "awiofbkalbfklbailbfhoajibflasijbflaisbfailsdubfalibfasilbfasildubfaisubfasoiubfasldjibfsildbfdisdfbdkdj");
-			fail();
-		} catch (MezuaEzDaZuzena e) {
-			String expected = "Long_message";
-			String obtained = e.getMessage();
-			assertEquals(expected, obtained);
-		}
-	}
-	
-	@Test
-	public void mezuaBidaliTest3() {
+	public void test1() {
 		Mezua m = null;
 		try {
-			m = dbManager.mezuaBidali(e1, a1, "kaixo");			
+			m = dbManager.mezuaBidali(e1, a1, "kaixo");
 			assertEquals(1, a1.jasotakoMezuakEskuratu(e1).size());
+			assertEquals(1, e1.getBidalitakoMezuak().size());
 			Mezua eskuratuta = a1.jasotakoMezuakEskuratu(e1).get(0);
 			assertEquals("kaixo", eskuratuta.getMezua());
 		} catch (MezuaEzDaZuzena e) {
 			fail(e.getMessage());
-		} finally {
+		}finally {
 			// Ezabatu mezua
 			if ( m != null ) {
 				testDA.open();
@@ -109,12 +86,93 @@ public class MezuaBidaliDAWTest {
 	}
 	
 	@Test
-	public void mezuaBidaliTest4() {
-		Mezua m = null;
-
+	public void test2() {
+		Mezua obtained = null;
 		try {
-			m = dbManager.mezuaBidali(e2, a1, "kaixo");
-			assertEquals(1, a1.jasotakoMezuakEskuratu(e2).size());
+			obtained = dbManager.mezuaBidali(null, a1, "kaixo");
+			fail();
+		} catch (MezuaEzDaZuzena e) {
+			assertEquals(null, obtained);
+		}
+	}
+
+	@Test
+	public void test3() {
+		Mezua obtained = null;
+		try {
+			obtained = dbManager.mezuaBidali(e1, null, "kaixo");
+			fail();
+		} catch (MezuaEzDaZuzena e) {
+			assertEquals(null, obtained);
+		}
+	}
+	
+	@Test
+	public void test4() {
+		Mezua obtained = null;
+		try {
+			obtained = dbManager.mezuaBidali(e1, a1, null);
+			fail();
+		} catch (MezuaEzDaZuzena e) {
+			assertEquals(null, obtained);
+		}
+	}
+	
+	@Test
+	public void test5() {
+		try {
+			dbManager.mezuaBidali(e1, a1, "k");
+			fail();
+		} catch (MezuaEzDaZuzena e) {
+			String expected = "Short_message";
+			String obtained = e.getMessage();
+			assertEquals(expected, obtained);
+		}
+	}
+	
+	@Test
+	public void test6() {
+		try {
+			dbManager.mezuaBidali(e1, a1, "kaixooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+			fail();
+		} catch (MezuaEzDaZuzena e) {
+			String expected = "Long_message";
+			String obtained = e.getMessage();
+			assertEquals(expected, obtained);
+		}
+	}
+	
+	@Test
+	public void test7() {
+		Erabiltzailea e3 = new Erabiltzailea("e3", "a", new Date());
+		Mezua obtained = null;
+		try {
+			obtained = dbManager.mezuaBidali(e3, a1, "kaixo");
+			fail();
+		} catch (MezuaEzDaZuzena e) {
+			assertEquals(null, obtained);
+		}
+
+	}
+	
+	@Test
+	public void test8() {
+		Admin a2 = new Admin("e3", "a", new Date());
+		Mezua obtained = null;
+		try {
+			obtained = dbManager.mezuaBidali(e1, a2, "kaixo");
+			fail();
+		} catch (MezuaEzDaZuzena e) {
+			assertEquals(null, obtained);
+		}
+	}
+	
+	@Test
+	public void test9() {
+		Mezua m = null;
+		try {
+			m = dbManager.mezuaBidali(e2, e1, "kaixo");
+			assertEquals(0, e1.jasotakoMezuakEskuratu(e2).size());
 		} catch (MezuaEzDaZuzena e) {
 			fail(e.getMessage());
 		} finally {
@@ -128,14 +186,18 @@ public class MezuaBidaliDAWTest {
 	}
 	
 	@Test
-	public void mezuaBidaliTest5() {
+	public void test10() {
 		Mezua m = null;
 		try {
-			m = dbManager.mezuaBidali(e2, e1, "kaixo");
-			assertEquals(0, e2.jasotakoMezuakEskuratu(e1).size());
+			m = dbManager.mezuaBidali(e2, a1, "kaixo");
+			assertEquals(1, a1.jasotakoMezuakEskuratu(e2).size());
+			assertEquals(1, e2.getBidalitakoMezuak().size());
+			Mezua eskuratuta = a1.jasotakoMezuakEskuratu(e2).get(0);
+			assertEquals("kaixo", eskuratuta.getMezua());
 		} catch (MezuaEzDaZuzena e) {
 			fail(e.getMessage());
-		} finally {
+		}finally {
+			// Ezabatu mezua
 			if ( m != null ) {
 				testDA.open();
 				boolean ezabatuta = testDA.mezuaEzabatu(e2,m.getMezuaZenbakia());
