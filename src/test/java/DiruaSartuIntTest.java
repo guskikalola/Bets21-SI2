@@ -89,9 +89,6 @@ public class DiruaSartuIntTest {
 
 			expected = testBL.mugimenduGuztiakEzabatu(er1);
 			assertTrue(expected);
-			// TODO setSaldoa konpondu
-			er1.setSaldoa(0.0);
-			assertTrue(sut.getErabiltzailea("erab1").getSaldoa() == 0.0);
 
 		} catch (Exception e) {
 			e.printStackTrace();
