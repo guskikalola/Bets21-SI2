@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,18 +28,12 @@ public class MezuaBidaliDABTest {
 	
 	@BeforeClass
 	public static void initializeDB() {
-		System.out.println("Creating BLFacadeImplementation instance");
-		ConfigXML c = ConfigXML.getInstance();
-
-		if (c.getDataBaseOpenMode().equals("initialize")) {
-			dbManager = new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
-			dbManager.initializeDB();
-		} else 
-			dbManager = new DataAccess();
+		dbManager = new DataAccess();
 		testDA = new TestDataAccess();
+		
 		e1 = (Erabiltzailea)dbManager.erregistratu("e1", "a", new Date());
 		e2 = (Erabiltzailea)dbManager.erregistratu("e2", "a", new Date());
-		a1 = (Admin)dbManager.getErabiltzailea("admin");
+		a1 = testDA.createAdmin("admin1","pass",new Date());
 		testDA.close();
 		
 		try {
@@ -55,12 +50,24 @@ public class MezuaBidaliDABTest {
 		dbManager.open(false);
 		e1 = (Erabiltzailea)dbManager.getErabiltzailea("e1");
 		e2 = (Erabiltzailea)dbManager.getErabiltzailea("e2");
-		a1 = (Admin)dbManager.getErabiltzailea("admin");
+		a1 = (Admin)dbManager.getErabiltzailea("admin1");
 	}
 	
 	@After
 	public void close() {
 		dbManager.close();
+	}
+	
+	@AfterClass
+	public static void ezabatu() {
+		// Erabiltzaileak ezabatu
+		testDA.open();
+		
+		testDA.removePertsona("e1");
+		testDA.removePertsona("e2");
+		testDA.removePertsona("admin1");
+
+		testDA.close();
 	}
 	
 	@Test

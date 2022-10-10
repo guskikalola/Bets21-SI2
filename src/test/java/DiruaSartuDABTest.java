@@ -35,14 +35,8 @@ public class DiruaSartuDABTest {
 
 	@BeforeClass
 	public static void initializeDB() {
-		System.out.println("Creating BLFacadeImplementation instance");
-		ConfigXML c = ConfigXML.getInstance();
 
-		if (c.getDataBaseOpenMode().equals("initialize")) {
-			dbManager = new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
-			dbManager.initializeDB();
-		} else
-			dbManager = new DataAccess();
+		dbManager = new DataAccess();
 
 		testDA = new TestDataAccess();
 
@@ -52,8 +46,9 @@ public class DiruaSartuDABTest {
 		er3 = (Erabiltzailea) dbManager.erregistratu("erab3", "1234", new Date(2000, 01, 01));
 		er4 = (Erabiltzailea) dbManager.erregistratu("erab4", "1234", new Date(2000, 01, 01));
 
-		Admin ad1 = (Admin) dbManager.getErabiltzailea("admin");
-
+		ad1 = testDA.createAdmin("admin1", "pass", new Date());
+		testDA.close();
+		
 		try {
 			dbManager.erabiltzaileaBlokeatu(ad1, er4, null);
 		} catch (MezuaEzDaZuzena e) {
@@ -80,6 +75,7 @@ public class DiruaSartuDABTest {
 		assertTrue(testDA.removePertsona("erab2"));
 		assertTrue(testDA.removePertsona("erab3"));
 		assertTrue(testDA.removePertsona("erab4"));
+		assertTrue(testDA.removePertsona("admin1"));
 		testDA.close();
 	}
 

@@ -33,11 +33,7 @@ public class MezuaBidaliIntTest {
 	
 	@BeforeClass
 	public static void initialize() {
-		// sut= new BLFacadeImplementation();
-
-		// you can parametrize the DataAccess used by BLFacadeImplementation
-		DataAccess da = new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
-		// DataAccess da= new DataAccess();
+		DataAccess da = new DataAccess();
 
 		sut = new BLFacadeImplementation(da);
 
@@ -46,7 +42,7 @@ public class MezuaBidaliIntTest {
 		// Erabiltzaileak sortu
 		e1 = (Erabiltzailea) sut.erregistratu("e1", "a", new Date());
 		e2 = (Erabiltzailea) sut.erregistratu("e2", "a", new Date());
-		a1 = (Admin) testBL.getAdmin("admin");
+		a1 = (Admin) testBL.createAdmin("admin1","pass",new Date());
 		
 		// Blokeoa sortu
 		try {
@@ -62,6 +58,7 @@ public class MezuaBidaliIntTest {
 		
 		testBL.removePertsona("e1");
 		testBL.removePertsona("e2");
+		testBL.removePertsona("admin1");
 
 	}
 	
@@ -69,7 +66,7 @@ public class MezuaBidaliIntTest {
 	public void open() {
 		e1 = (Erabiltzailea) sut.getErabiltzailea("e1");
 		e2 = (Erabiltzailea) sut.getErabiltzailea("e2");
-		a1 = (Admin)testBL.getAdmin("admin");
+		a1 = (Admin)testBL.getAdmin("admin1");
 	}
 	
 	@After
@@ -85,7 +82,7 @@ public class MezuaBidaliIntTest {
 		try {
 			m = sut.mezuaBidali(e1, a1, "kaixo");
 			eDB = (Erabiltzailea) sut.getErabiltzailea("e1");
-			aDB = (Admin)testBL.getAdmin("admin");
+			aDB = (Admin)testBL.getAdmin("admin1");
 			assertEquals(1, aDB.jasotakoMezuakEskuratu(eDB).size());
 			assertEquals(1, eDB.getBidalitakoMezuak().size());
 			Mezua eskuratuta = aDB.jasotakoMezuakEskuratu(eDB).get(0);
@@ -206,11 +203,15 @@ public class MezuaBidaliIntTest {
 	@Test
 	public void test10() {
 		Mezua m = null;
+		Erabiltzailea e2DB = null;
+		Admin a1DB = null;
 		try {
 			m = sut.mezuaBidali(e2, a1, "kaixo");
-			assertEquals(1, a1.jasotakoMezuakEskuratu(e2).size());
-			assertEquals(1, e2.getBidalitakoMezuak().size());
-			Mezua eskuratuta = a1.jasotakoMezuakEskuratu(e2).get(0);
+			e2DB = (Erabiltzailea) sut.getErabiltzailea("e2");
+			a1DB = testBL.getAdmin("admin1");
+			assertEquals(1, a1DB.jasotakoMezuakEskuratu(e2).size());
+			assertEquals(1, e2DB.getBidalitakoMezuak().size());
+			Mezua eskuratuta = a1DB.jasotakoMezuakEskuratu(e2).get(0);
 			assertEquals("kaixo", eskuratuta.getMezua());
 		} catch (MezuaEzDaZuzena e) {
 			fail(e.getMessage());

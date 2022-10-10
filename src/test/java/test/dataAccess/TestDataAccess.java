@@ -114,7 +114,8 @@ public class TestDataAccess {
 		
 		public boolean mezuaEzabatu(Pertsona p2, int mezuaZenbakia) {
 			db.getTransaction().begin();
-			Iterator<Mezua> it = p2.getBidalitakoMezuak().iterator();
+			Pertsona p2DB = db.find(Pertsona.class, p2.getIzena());
+			Iterator<Mezua> it = p2DB.getBidalitakoMezuak().iterator();
 			boolean ezabatuta = false;
 			Mezua ezabatutakoa = null;
 			while(it.hasNext() && !ezabatuta) {
@@ -122,7 +123,8 @@ public class TestDataAccess {
 				if(m.getMezuaZenbakia().equals(mezuaZenbakia)) {
 					it.remove();
 					ezabatuta = true;
-					ezabatutakoa = m;				
+					ezabatutakoa = m;
+					db.remove(m);
 				}
 			}
 			
@@ -157,7 +159,7 @@ public class TestDataAccess {
 			db.getTransaction().begin();
 			
 			Pertsona p = db.find(Pertsona.class, izena);
-			db.remove(p);
+			if(p!=null) db.remove(p);
 			
 			db.getTransaction().commit();
 			
@@ -189,6 +191,23 @@ public class TestDataAccess {
 			
 			return aDB;
 			
+		}
+
+
+		public Admin createAdmin(String izena, String pass, Date date) {
+			db.getTransaction().begin();
+			
+			// Existitzen bada ezabatu
+			Admin p = db.find(Admin.class, izena);
+			if(p != null) {
+				db.remove(p);
+			}
+			
+			Admin admin = new Admin(izena, pass, date);
+			db.persist(admin);
+			db.getTransaction().commit();
+			
+			return admin;
 		}
 		
 }

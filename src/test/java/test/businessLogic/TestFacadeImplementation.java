@@ -104,4 +104,11 @@ public class TestFacadeImplementation {
 		return p;
 	}
 
+	public Admin createAdmin(String string, String string2, Date date) {
+		dbManagerTest.open();
+		Admin p = dbManagerTest.createAdmin(string, string2, date);
+		dbManagerTest.close();
+		return p;
+	}
+
 }

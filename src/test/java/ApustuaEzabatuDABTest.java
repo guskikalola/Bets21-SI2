@@ -34,6 +34,7 @@ public class ApustuaEzabatuDABTest {
 	static Kuota k1, k2, k3;
 	static Event ev1,ev2,ev3;
 	static Question q1, q2, q3;
+	static Admin admin;
 
 	// sut:system under test
 	static DataAccess dbManager;
@@ -51,14 +52,7 @@ public class ApustuaEzabatuDABTest {
 	
 	@BeforeClass
 	public static void initializeDB() {
-		System.out.println("Creating BLFacadeImplementation instance");
-		ConfigXML c = ConfigXML.getInstance();
-
-		if (c.getDataBaseOpenMode().equals("initialize")) {
-			dbManager = new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
-			dbManager.initializeDB();
-		} else
-			dbManager = new DataAccess();
+		dbManager = new DataAccess();
 
 		testDA = new TestDataAccess();
 
@@ -66,7 +60,8 @@ public class ApustuaEzabatuDABTest {
 		e1 = (Erabiltzailea) dbManager.erregistratu("e1", "a", new Date());
 		e2 = (Erabiltzailea) dbManager.erregistratu("e2", "a", new Date());
 		e3 = (Erabiltzailea) dbManager.erregistratu("e3", "a", new Date());
-
+		admin = testDA.createAdmin("admin1","pass", new Date());
+		
 		dbManager.diruaSartu(e1, "a", 32.0);
 		dbManager.diruaSartu(e3, "a", 143.0);
 
@@ -112,7 +107,6 @@ public class ApustuaEzabatuDABTest {
 
 		// e3 blokeatu behin apustua eginda. Bestela apustua ez da egiten eta hori ez da
 		// nahi dugun egoera
-		Admin admin = (Admin) dbManager.getErabiltzailea("admin");
 		try {
 			dbManager.erabiltzaileaBlokeatu(admin, e3, "probak");
 		} catch (MezuaEzDaZuzena e5) {
@@ -129,6 +123,7 @@ public class ApustuaEzabatuDABTest {
 		testDA.removePertsona("e1");
 		testDA.removePertsona("e2");
 		testDA.removePertsona("e3");
+		testDA.removePertsona("admin1");
 
 		// Gertaera ezabatu
 		testDA.removeEvent(ev1);

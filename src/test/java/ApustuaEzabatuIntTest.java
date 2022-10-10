@@ -36,6 +36,7 @@ public class ApustuaEzabatuIntTest {
 
 	static Apustua ap1, ap2, ap3, ap5;
 	static Erabiltzailea e1, e2, e3;
+	static Admin admin;
 	static Kuota k1, k2, k3;
 	static Event ev1,ev2,ev3;
 	static Question q1, q2, q3;
@@ -53,7 +54,7 @@ public class ApustuaEzabatuIntTest {
 		// sut= new BLFacadeImplementation();
 
 		// you can parametrize the DataAccess used by BLFacadeImplementation
-		DataAccess da = new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
+		DataAccess da = new DataAccess();
 		// DataAccess da= new DataAccess();
 
 		sut = new BLFacadeImplementation(da);
@@ -64,6 +65,7 @@ public class ApustuaEzabatuIntTest {
 		e1 = (Erabiltzailea) sut.erregistratu("e1", "a", new Date());
 		e2 = (Erabiltzailea) sut.erregistratu("e2", "a", new Date());
 		e3 = (Erabiltzailea) sut.erregistratu("e3", "a", new Date());
+		admin = testBL.createAdmin("admin1","pass",new Date());
 
 		sut.diruaSartu(e1, "a", 32.0);
 		sut.diruaSartu(e3, "a", 143.0);
@@ -109,7 +111,6 @@ public class ApustuaEzabatuIntTest {
 
 		// e3 blokeatu behin apustua eginda. Bestela apustua ez da egiten eta hori ez da
 		// nahi dugun egoera
-		Admin admin = (Admin) testBL.getAdmin("admin");
 		try {
 			sut.erabiltzaileaBlokeatu(admin, e3, "probak");
 		} catch (MezuaEzDaZuzena e5) {
@@ -131,6 +132,7 @@ public class ApustuaEzabatuIntTest {
 		testBL.removePertsona("e1");
 		testBL.removePertsona("e2");
 		testBL.removePertsona("e3");
+		testBL.removePertsona("admin1");
 
 		// Gertaera ezabatu
 		testBL.removeEvent(ev1);
