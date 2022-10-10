@@ -126,11 +126,12 @@ public class DataAccess {
 				q5 = ev17.addQuestion("Who will win the match?", 1);
 				q6 = ev17.addQuestion("Will there be goals in the first half?", 2);
 			} else {
-				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
+				String zeinekIrabazikoDuPatidua = "Zeinek irabaziko du partidua?";
+				q1 = ev1.addQuestion(zeinekIrabazikoDuPatidua, 1);
 				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
-				q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1);
+				q3 = ev11.addQuestion(zeinekIrabazikoDuPatidua, 1);
 				q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2);
-				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
+				q5 = ev17.addQuestion(zeinekIrabazikoDuPatidua, 1);
 				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
 
 			}
@@ -430,16 +431,20 @@ public class DataAccess {
 			return false;
 		else {
 			if (e.getBlokeoa() == null) {
-				db.getTransaction().begin();
-				e.saldoaAldatu(kantitatea);
-				Mugimendua m = new Mugimendua(erabiltzaile, kantitatea, "dirua_sartu");
-				e.mugimenduaGehitu(m);
-				db.persist(m);
-				db.getTransaction().commit();
+				diruaSartuDB(erabiltzaile, kantitatea, e);
 				return true;
 			} else
 				return false;
 		}
+	}
+
+	private void diruaSartuDB(Erabiltzailea erabiltzaile, Double kantitatea, Erabiltzailea e) {
+		db.getTransaction().begin();
+		e.saldoaAldatu(kantitatea);
+		Mugimendua m = new Mugimendua(erabiltzaile, kantitatea, "dirua_sartu");
+		e.mugimenduaGehitu(m);
+		db.persist(m);
+		db.getTransaction().commit();
 	}
 
 	public List<Mugimendua> mugimenduakIkusi(Erabiltzailea er) {
@@ -789,25 +794,35 @@ public class DataAccess {
 			zuzenaMAX = Mezua.mezuaZuzenaDaMAX(arrazoia);
 		}
 		if (zuzenaMIN && zuzenaMAX) {
-			if (eDB.getBlokeoa() == null) {
-				bl = new Blokeoa(aDB, eDB, arrazoia);
-				aDB.blokeoaGehituListan(bl);
-				eDB.blokeoaGehitu(bl);
-				db.persist(bl);
-			} else {
-				bl = eDB.getBlokeoa();
-				aDB.blokeoaEzabatuListatik(bl);
-				eDB.blokeoaEzabatu();
-				db.remove(bl);
-			}
+			bl = erbiltzaileaBlokeatuDB(arrazoia, aDB, eDB);
 		} else {
-			if (!zuzenaMIN) {
-				throw new MezuaEzDaZuzena("Short_reason");
-			} else if (!zuzenaMAX) {
-				throw new MezuaEzDaZuzena("Long_reason");
-			}
+			mezuLuzeraDesegokiaEszepzioa(zuzenaMIN, zuzenaMAX);
 		}
 		db.getTransaction().commit();
+		return bl;
+	}
+
+	private void mezuLuzeraDesegokiaEszepzioa(Boolean zuzenaMIN, Boolean zuzenaMAX) throws MezuaEzDaZuzena {
+		if (!zuzenaMIN) {
+			throw new MezuaEzDaZuzena("Short_reason");
+		} else if (!zuzenaMAX) {
+			throw new MezuaEzDaZuzena("Long_reason");
+		}
+	}
+
+	private Blokeoa erbiltzaileaBlokeatuDB(String arrazoia, Admin aDB, Erabiltzailea eDB) {
+		Blokeoa bl;
+		if (eDB.getBlokeoa() == null) {
+			bl = new Blokeoa(aDB, eDB, arrazoia);
+			aDB.blokeoaGehituListan(bl);
+			eDB.blokeoaGehitu(bl);
+			db.persist(bl);
+		} else {
+			bl = eDB.getBlokeoa();
+			aDB.blokeoaEzabatuListatik(bl);
+			eDB.blokeoaEzabatu();
+			db.remove(bl);
+		}
 		return bl;
 	}
 
