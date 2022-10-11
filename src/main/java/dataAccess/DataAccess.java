@@ -522,28 +522,31 @@ public class DataAccess {
 	}
 
 	public boolean apustuaEzabatu(Apustua a, Erabiltzailea er) {
-		db.getTransaction().begin();
 		Apustua aDB = db.find(Apustua.class, a.getApustuZenbakia());
 		if (aDB != null) {
 			Erabiltzailea erDB = aDB.getErabiltzailea();
 			
 			if (erDB.getIzena().equals(er.getIzena()) && aDB.ezabatuDaiteke() && erDB.getBlokeoa() == null) {
-				List<Kuota> kDBLista = aDB.getKuotak();
-				Double diruKop = aDB.getDiruKop();
-				erDB.saldoaAldatu(diruKop);
-				Mugimendua m = erDB.mugimenduaSortu(diruKop, "apustua_ezabatuta");
-				db.persist(m);
-				erDB.apustuaEzabatuListatik(aDB);
-				for (Kuota kiDB : kDBLista) {
-					kiDB.apustuaEzabatuListatik(aDB);
-				}
-				db.remove(aDB);
-				db.getTransaction().commit();
+				apustuaEzabatuDB(aDB, erDB);
 				return true;
 			}
 		}
-		db.getTransaction().commit();
 		return false;
+	}
+
+	private void apustuaEzabatuDB(Apustua aDB, Erabiltzailea erDB) {
+		db.getTransaction().begin();
+		List<Kuota> kDBLista = aDB.getKuotak();
+		Double diruKop = aDB.getDiruKop();
+		erDB.saldoaAldatu(diruKop);
+		Mugimendua m = erDB.mugimenduaSortu(diruKop, "apustua_ezabatuta");
+		db.persist(m);
+		erDB.apustuaEzabatuListatik(aDB);
+		for (Kuota kiDB : kDBLista) {
+			kiDB.apustuaEzabatuListatik(aDB);
+		}
+		db.remove(aDB);
+		db.getTransaction().commit();
 	}
 
 	public List<Erabiltzailea> emaitzaIpini(Question q, Kuota k) throws EmaitzaEzinIpini {
@@ -628,25 +631,29 @@ public class DataAccess {
 		if (unekoErab == null || aukeratutakoErabiltzailea == null || unekoErab.equals(aukeratutakoErabiltzailea)) {
 			return false; // ezin duzu zure burua jarraitu
 		}
-		db.getTransaction().begin();
 		Erabiltzailea unErDB = db.find(Erabiltzailea.class, unekoErab.getIzena());
 		Erabiltzailea erDB = db.find(Erabiltzailea.class, aukeratutakoErabiltzailea.getIzena());
 		if (unErDB == null || erDB == null || unErDB.getBlokeoa() != null) {
 			return false;
 		} else {
-			Jarraitzen bJarraitu = unErDB.jarraitzenDu(erDB);
-			if (bJarraitu != null) { // Jarraizten utzi
-				unErDB.ezabatuJarraitzenListatik(bJarraitu);
-				erDB.ezabatuJarraitzaileakListatik(unErDB);
-			} else {
-				Jarraitzen jB = unErDB.jarraitu(erDB, diruMax);
-				erDB.gehituJarraitzaileakListara(unErDB);
-				db.persist(jB);
-			}
+			erabiltzaileaJarraituDB(diruMax, unErDB, erDB);
 		}
-		db.getTransaction().commit();
 
 		return true;
+	}
+
+	private void erabiltzaileaJarraituDB(float diruMax, Erabiltzailea nor, Erabiltzailea nori) {
+		db.getTransaction().begin();
+		Jarraitzen bJarraitu = nor.jarraitzenDu(nori);
+		if (bJarraitu != null) { // Jarraizten utzi
+			nor.ezabatuJarraitzenListatik(bJarraitu);
+			nori.ezabatuJarraitzaileakListatik(nor);
+		} else {
+			Jarraitzen jB = nor.jarraitu(nori, diruMax);
+			nori.gehituJarraitzaileakListara(nor);
+			db.persist(jB);
+		}
+		db.getTransaction().commit();
 	}
 
 	public Apustua apustuAnizkoitzaEgin(Erabiltzailea er, List<Kuota> kuotaLista, double diruKop,
