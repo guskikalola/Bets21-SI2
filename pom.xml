@@ -94,6 +94,28 @@
 			<artifactId>jta</artifactId>
 			<version>1.1</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-agent -->
+<dependency>
+    <groupId>net.bytebuddy</groupId>
+    <artifactId>byte-buddy-agent</artifactId>
+    <version>1.10.10</version>
+    <scope>test</scope>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy -->
+<dependency>
+    <groupId>net.bytebuddy</groupId>
+    <artifactId>byte-buddy</artifactId>
+    <version>1.10.10</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.objenesis/objenesis-tck -->
+<dependency>
+    <groupId>org.objenesis</groupId>
+    <artifactId>objenesis-tck</artifactId>
+    <version>3.0.1</version>
+</dependency>
+
 
 <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
 		<dependency>
