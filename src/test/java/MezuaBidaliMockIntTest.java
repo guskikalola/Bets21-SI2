@@ -50,14 +50,15 @@ public class MezuaBidaliMockIntTest {
 		
 		Mezua m;
 		try {
+			Mezua mez = new Mezua(e1,a1,"kaixo");
+			Mockito.doReturn(mez).when(dataAccess).mezuaBidali(e1, a1, "kaixo");
 			m = sut.mezuaBidali(e1, a1, "kaixo");
-			Mockito.doReturn(m).when(dataAccess).mezuaBidali(e1, a1, "kaixo");
 			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
 			
 			assertEquals(erabCaptor.getValue(), e1);
 			assertEquals(adminCaptor.getValue(), a1);
 			assertEquals(mezuCaptor.getValue(), "kaixo");
-			assertEquals(m, sut.mezuaBidali(e1, a1, "kaixo"));
+			assertEquals(m, mez);
 		} catch (MezuaEzDaZuzena e) {
 			e.printStackTrace();
 		}
@@ -72,14 +73,14 @@ public class MezuaBidaliMockIntTest {
 		
 		Mezua m = null;
 		try {
-			m = sut.mezuaBidali(null, a1, "kaixo");
 			Mockito.doReturn(null).when(dataAccess).mezuaBidali(null, a1, "kaixo");
+			m = sut.mezuaBidali(null, a1, "kaixo");
 			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
 			
 			assertEquals(erabCaptor.getValue(), null);
 			assertEquals(adminCaptor.getValue(), a1);
 			assertEquals(mezuCaptor.getValue(), "kaixo");
-			assertEquals(null, sut.mezuaBidali(null, a1, "kaixo"));
+			assertEquals(null, m);
 		} catch (MezuaEzDaZuzena e) {
 			e.printStackTrace();
 		}
@@ -93,14 +94,14 @@ public class MezuaBidaliMockIntTest {
 		
 		Mezua m = null;
 		try {
-			m = sut.mezuaBidali(e1, null, "kaixo");
 			Mockito.doReturn(null).when(dataAccess).mezuaBidali(e1, null, "kaixo");
+			m = sut.mezuaBidali(e1, null, "kaixo");
 			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
 			
 			assertEquals(erabCaptor.getValue(), e1);
 			assertEquals(adminCaptor.getValue(), null);
 			assertEquals(mezuCaptor.getValue(), "kaixo");
-			assertEquals(null, sut.mezuaBidali(e1, null, "kaixo"));
+			assertEquals(null, m);
 		} catch (MezuaEzDaZuzena e) {
 			e.printStackTrace();
 		}
@@ -114,14 +115,14 @@ public class MezuaBidaliMockIntTest {
 		
 		Mezua m = null;
 		try {
-			m = sut.mezuaBidali(e1, a1, null);
 			Mockito.doReturn(null).when(dataAccess).mezuaBidali(e1, a1, null);
+			m = sut.mezuaBidali(e1, a1, null);
 			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
 			
 			assertEquals(erabCaptor.getValue(), e1);
 			assertEquals(adminCaptor.getValue(), a1);
 			assertEquals(mezuCaptor.getValue(), null);
-			assertEquals(null, sut.mezuaBidali(e1, a1, null));
+			assertEquals(null,m);
 		} catch (MezuaEzDaZuzena e) {
 			e.printStackTrace();
 		}
@@ -135,11 +136,15 @@ public class MezuaBidaliMockIntTest {
 		
 		Mezua m = null;
 		try {
-			m = sut.mezuaBidali(e1, a1, "k");
 			Mockito.doThrow(new MezuaEzDaZuzena("Short_message")).when(dataAccess).mezuaBidali(e1, a1, "k");
-			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
+			m = sut.mezuaBidali(e1, a1, "k");
 			
 		} catch (MezuaEzDaZuzena e) {
+			try {
+				Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
+			} catch (MezuaEzDaZuzena e2) {
+				fail();
+			}
 			assertEquals(erabCaptor.getValue(), e1);
 			assertEquals(adminCaptor.getValue(), a1);
 			assertEquals(mezuCaptor.getValue(), "k");
@@ -155,14 +160,18 @@ public class MezuaBidaliMockIntTest {
 		
 		Mezua m = null;
 		try {
-			m = sut.mezuaBidali(e1, a1, "kaixooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 			Mockito.doThrow(new MezuaEzDaZuzena("Long_message")).when(dataAccess).mezuaBidali(e1, a1, "kaixoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
+			m = sut.mezuaBidali(e1, a1, "kaixoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 			
 		} catch (MezuaEzDaZuzena e) {
+			try {
+				Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
+			} catch (MezuaEzDaZuzena e2) {
+				fail();
+			}
 			assertEquals(erabCaptor.getValue(), e1);
 			assertEquals(adminCaptor.getValue(), a1);
-			assertEquals(mezuCaptor.getValue(), "kaixooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+			assertEquals(mezuCaptor.getValue(), "kaixoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 			assertEquals("Long_message", e.getMessage());
 		}
 		
@@ -177,14 +186,14 @@ public class MezuaBidaliMockIntTest {
 		Erabiltzailea e3 = new Erabiltzailea("e3", "a", new Date());
 		Mezua m = null;
 		try {
-			m = sut.mezuaBidali(e3, a1, "kaixo");
 			Mockito.doReturn(null).when(dataAccess).mezuaBidali(e3, a1, "kaixo");
+			m = sut.mezuaBidali(e3, a1, "kaixo");
 			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
 			
 			assertEquals(erabCaptor.getValue(), e3);
 			assertEquals(adminCaptor.getValue(), a1);
 			assertEquals(mezuCaptor.getValue(), "kaixo");
-			assertEquals(null, sut.mezuaBidali(e3, a1, "kaixo"));
+			assertEquals(null, m);
 		} catch (MezuaEzDaZuzena e) {
 			e.printStackTrace();
 		}
@@ -199,14 +208,14 @@ public class MezuaBidaliMockIntTest {
 		Admin a2 = new Admin("e3", "a", new Date());
 		Mezua m = null;
 		try {
-			m = sut.mezuaBidali(e1, a2, "kaixo");
 			Mockito.doReturn(null).when(dataAccess).mezuaBidali(e1, a2, "kaixo");
+			m = sut.mezuaBidali(e1, a2, "kaixo");
 			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
 			
 			assertEquals(erabCaptor.getValue(), e1);
 			assertEquals(adminCaptor.getValue(), a2);
 			assertEquals(mezuCaptor.getValue(), "kaixo");
-			assertEquals(null, sut.mezuaBidali(e1, a2, "kaixo"));
+			assertEquals(null, m);
 		} catch (MezuaEzDaZuzena e) {
 			e.printStackTrace();
 		}
@@ -220,14 +229,15 @@ public class MezuaBidaliMockIntTest {
 		
 		Mezua m = null;
 		try {
+			Mezua mez = new Mezua(e1,e2,"kaixo");
+			Mockito.doReturn(mez).when(dataAccess).mezuaBidali(e1, e2, "kaixo");
 			m = sut.mezuaBidali(e1, e2, "kaixo");
-			Mockito.doReturn(m).when(dataAccess).mezuaBidali(e1, e2, "kaixo");
 			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), erabCaptor2.capture(), mezuCaptor.capture());
 			
 			assertEquals(erabCaptor.getValue(), e1);
 			assertEquals(erabCaptor2.getValue(), e2);
 			assertEquals(mezuCaptor.getValue(), "kaixo");
-			assertEquals(m, sut.mezuaBidali(e1, e2, "kaixo"));
+			assertEquals(m, mez);
 		} catch (MezuaEzDaZuzena e) {
 			e.printStackTrace();
 		}
@@ -241,14 +251,14 @@ public class MezuaBidaliMockIntTest {
 		a1.blokeoaGehituListan(b1);
 		Mezua m = null;
 		try {
+			Mockito.doReturn(null).when(dataAccess).mezuaBidali(e2, a1, "kaixo");
 			m = sut.mezuaBidali(e2, a1, "kaixo");
-			Mockito.doReturn(m).when(dataAccess).mezuaBidali(e2, a1, "kaixo");
 			Mockito.verify(dataAccess, Mockito.times(1)).mezuaBidali(erabCaptor.capture(), adminCaptor.capture(), mezuCaptor.capture());
 			
 			assertEquals(erabCaptor.getValue(), e2);
 			assertEquals(adminCaptor.getValue(), a1);
 			assertEquals(mezuCaptor.getValue(), "kaixo");
-			assertEquals(null, sut.mezuaBidali(e2, a1, "kaixo"));
+			assertEquals(null,m);
 		} catch (MezuaEzDaZuzena e) {
 			e.printStackTrace();
 		}
