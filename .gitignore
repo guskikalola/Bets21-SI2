@@ -2,3 +2,4 @@
 bets.temp
 bets.temp$
 *.log
+coverage.xml
