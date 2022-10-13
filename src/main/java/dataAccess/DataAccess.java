@@ -494,31 +494,35 @@ public class DataAccess {
 		Erabiltzailea erDB = db.find(Erabiltzailea.class, izena);
 		Kuota kDB = db.find(Kuota.class, ki.getKuotaZenbakia());
 		if (erDB != null && erDB.getBlokeoa() == null) {
-			Boolean nahikoa = erDB.diruaNahikoa(diruKop);
-			Boolean minimoaGaindtu = diruKop >= kDB.getQuestion().getBetMinimum();
-			if (kDB.galderaEmaitzaDu()) {
-				throw new ApustuaEzDaEgin("galdera_emaitza_du");
-			} else if (nahikoa && minimoaGaindtu) {
-				erDB.saldoaAldatu((-1) * diruKop);
-				Mugimendua mugi = erDB.mugimenduaSortu((-1) * diruKop, "apustua_eginda");
-				db.persist(mugi);
-				Apustua apustua = erDB.apustuaSortu(diruKop, kDB);
-				db.persist(apustua);
-				kDB.apustuaGehitu(apustua);
-				db.getTransaction().commit();
-				this.apustuaJarraitu(apustua);
-				return apustua;
-			} else {
-				if (!nahikoa)
-					throw new ApustuaEzDaEgin("NoMoney");
-				else if (!minimoaGaindtu)
-					throw new ApustuaEzDaEgin("errorea_minimoa_gainditu");
-			}
-			return null;
+			return apustuaBueltatu(diruKop, erDB, kDB);
 		} else {
 			db.getTransaction().commit();
 			return null;
 		}
+	}
+
+	private Apustua apustuaBueltatu(Double diruKop, Erabiltzailea erDB, Kuota kDB) throws ApustuaEzDaEgin {
+		Boolean nahikoa = erDB.diruaNahikoa(diruKop);
+		Boolean minimoaGaindtu = diruKop >= kDB.getQuestion().getBetMinimum();
+		if (kDB.galderaEmaitzaDu()) {
+			throw new ApustuaEzDaEgin("galdera_emaitza_du");
+		} else if (nahikoa && minimoaGaindtu) {
+			erDB.saldoaAldatu((-1) * diruKop);
+			Mugimendua mugi = erDB.mugimenduaSortu((-1) * diruKop, "apustua_eginda");
+			db.persist(mugi);
+			Apustua apustua = erDB.apustuaSortu(diruKop, kDB);
+			db.persist(apustua);
+			kDB.apustuaGehitu(apustua);
+			db.getTransaction().commit();
+			this.apustuaJarraitu(apustua);
+			return apustua;
+		} else {
+			if (!nahikoa)
+				throw new ApustuaEzDaEgin("NoMoney");
+			else if (!minimoaGaindtu)
+				throw new ApustuaEzDaEgin("errorea_minimoa_gainditu");
+		}
+		return null;
 	}
 
 	public boolean apustuaEzabatu(Apustua a, Erabiltzailea er) {
@@ -765,24 +769,37 @@ public class DataAccess {
 		Boolean zuzenaMIN = Mezua.mezuaZuzenaDaMIN(mezua);
 		Boolean zuzenaMAX = Mezua.mezuaZuzenaDaMAX(mezua);
 		if (zuzenaMIN && zuzenaMAX) {
-			if (mezulariDB instanceof Erabiltzailea && ((Erabiltzailea) mezulariDB).getBlokeoa() != null && !((Erabiltzailea) mezulariDB).getBlokeoa().getNor().equals(nori)) {
-				db.getTransaction().rollback();
+			mez = mezuaZuzenaBidali(nori, mezua, mezulariDB, noriDB);
+			if (mez == null) {
 				return null;
 			}
-			mez = new Mezua(mezulariDB, noriDB, mezua);
-			mezulariDB.gehituBidaliLista(mez);
-			noriDB.gehituJasotakoLista(mez);
-			db.persist(mez);
 		} else {
-			if (!zuzenaMIN) {
-				db.getTransaction().rollback();
-				throw new MezuaEzDaZuzena("Short_message");
-			} else if (!zuzenaMAX) {
-				db.getTransaction().rollback();
-				throw new MezuaEzDaZuzena("Long_message");
-			}
+			mezuaEzZuzena(zuzenaMIN, zuzenaMAX);
 		}
 		db.getTransaction().commit();
+		return mez;
+	}
+
+	private void mezuaEzZuzena(Boolean zuzenaMIN, Boolean zuzenaMAX) throws MezuaEzDaZuzena {
+		if (!zuzenaMIN) {
+			db.getTransaction().rollback();
+			throw new MezuaEzDaZuzena("Short_message");
+		} else if (!zuzenaMAX) {
+			db.getTransaction().rollback();
+			throw new MezuaEzDaZuzena("Long_message");
+		}
+	}
+
+	private Mezua mezuaZuzenaBidali(Pertsona nori, String mezua, Pertsona mezulariDB, Pertsona noriDB) {
+		Mezua mez;
+		if (mezulariDB instanceof Erabiltzailea && ((Erabiltzailea) mezulariDB).getBlokeoa() != null && !((Erabiltzailea) mezulariDB).getBlokeoa().getNor().equals(nori)) {
+			db.getTransaction().rollback();
+			return null;
+		}
+		mez = new Mezua(mezulariDB, noriDB, mezua);
+		mezulariDB.gehituBidaliLista(mez);
+		noriDB.gehituJasotakoLista(mez);
+		db.persist(mez);
 		return mez;
 	}
 
