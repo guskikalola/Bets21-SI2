@@ -238,19 +238,7 @@ public class ApustuakEginGUI extends GUI {
 							+ ev.getDescription());
 
 				questionList = new ArrayList<Question>();
-				for (domain.Question q : queries) {
-					Vector<Object> row = new Vector<Object>();
-
-					row.add(q.getQuestionNumber());
-					row.add(q.getQuestion());
-					row.add(q);
-					tableModelQueries.addRow(row);
-					questionList.add(q);
-				}
-				tableQueries.getColumnModel().getColumn(0).setPreferredWidth(25);
-				tableQueries.getColumnModel().getColumn(1).setPreferredWidth(268);
-				tableQueries.getColumnModel().removeColumn(tableQueries.getColumnModel().getColumn(2)); // not shown in
-																										// JTable
+				gehituGaldera(queries, tableModelQueries, questionList, tableQueries);
 			}
 		});
 
