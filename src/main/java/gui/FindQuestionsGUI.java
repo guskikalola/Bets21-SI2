@@ -14,7 +14,7 @@ import java.util.*;
 
 import javax.swing.table.DefaultTableModel;
 
-public class FindQuestionsGUI extends JFrame {
+public class FindQuestionsGUI extends GUI {
 	private static final long serialVersionUID = 1L;
 
 	private final JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));

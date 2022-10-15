@@ -39,7 +39,7 @@ import domain.Erabiltzailea;
 import domain.Kuota;
 import domain.Question;
 
-public class ApustuakEzabatuGUI extends JFrame {
+public class ApustuakEzabatuGUI extends GUI {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -18,7 +18,7 @@ import businessLogic.BLFacade;
 import domain.Erabiltzailea;
 import domain.Pertsona;
 
-public class DiruaSartuGUI extends JFrame {
+public class DiruaSartuGUI extends GUI {
 
 	private JPanel contentPane;
 	private JFrame frame;

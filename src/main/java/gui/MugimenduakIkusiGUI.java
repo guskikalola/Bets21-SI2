@@ -19,7 +19,7 @@ import businessLogic.BLFacade;
 import domain.Erabiltzailea;
 import domain.Mugimendua;
 
-public class MugimenduakIkusiGUI extends JFrame {
+public class MugimenduakIkusiGUI extends GUI {
 
 	private JPanel contentPane;
 	private static MugimenduakIkusiGUI frame;

@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 
-public class GertaeraSortuGUI extends JFrame {
+public class GertaeraSortuGUI extends GUI {
 
 	private JPanel contentPane;
 	private JTextField textFieldDescription;

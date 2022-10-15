@@ -33,7 +33,7 @@ import businessLogic.BLFacade;
 import configuration.UtilDate;
 import domain.Question;
 
-public class GertaeraBikoiztuGUI extends JFrame {
+public class GertaeraBikoiztuGUI extends GUI {
 
 	private static final long serialVersionUID = 1L;
 
@@ -176,9 +176,9 @@ public class GertaeraBikoiztuGUI extends JFrame {
 
 					if ((monthAct != monthAnt) || (yearAnt != yearAct)) {
 						if (monthAct == monthAnt + 2) {
-							// Si en JCalendar está 30 de enero y se avanza al mes siguiente, devolvería 2
+							// Si en JCalendar estï¿½ 30 de enero y se avanza al mes siguiente, devolverï¿½a 2
 							// de marzo (se toma como equivalente a 30 de febrero)
-							// Con este código se dejará como 1 de febrero en el JCalendar
+							// Con este cï¿½digo se dejarï¿½ como 1 de febrero en el JCalendar
 							calendarAct.set(Calendar.MONTH, monthAnt + 1);
 							calendarAct.set(Calendar.DAY_OF_MONTH, 1);
 						}

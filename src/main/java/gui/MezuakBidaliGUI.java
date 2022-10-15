@@ -30,7 +30,7 @@ import java.util.Vector;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
-public class MezuakBidaliGUI extends JFrame {
+public class MezuakBidaliGUI extends GUI {
 
 	private JPanel contentPane;
 	private static MezuakBidaliGUI frame;

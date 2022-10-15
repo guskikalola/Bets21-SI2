@@ -39,7 +39,7 @@ import java.awt.ScrollPane;
 
 
 
-public class KuotakIpiniGUI extends JFrame {
+public class KuotakIpiniGUI extends GUI {
 
 	private static final long serialVersionUID = 1L;
 

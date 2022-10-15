@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 
 
-public class LoginGUI extends JFrame {
+public class LoginGUI extends GUI {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -103,7 +103,7 @@ public class LoginGUI extends JFrame {
 							bl.setVisible(true);
 						}else {
 							frame.setVisible(false);
-							ErabiltzaileGUI era= new ErabiltzaileGUI((Erabiltzailea) e);
+				GUI era= new ErabiltzaileGUI((Erabiltzailea) e);
 							era.setVisible(true);
 						}
 					}else if(e instanceof Admin) {

@@ -18,7 +18,7 @@ import domain.Event;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
 
-public class CreateQuestionGUI extends JFrame {
+public class CreateQuestionGUI extends GUI {
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox<Event> jComboBoxEvents = new JComboBox<Event>();

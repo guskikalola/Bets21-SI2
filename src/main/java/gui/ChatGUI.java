@@ -33,7 +33,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class ChatGUI extends JFrame {
+public class ChatGUI extends GUI {
 
 	private JPanel contentPane;
 	private static ChatGUI frame;

@@ -22,7 +22,6 @@ import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,11 +44,11 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import java.awt.ScrollPane;
 
-public class ApustuakEginGUI extends JFrame {
+public class ApustuakEginGUI extends GUI {
 
 	private static final long serialVersionUID = 1L;
 
-	private static ApustuakEginGUI frame;
+	private static GUI frame;
 
 	private final String etiketak = "Etiquetas";
 	
@@ -282,16 +281,7 @@ public class ApustuakEginGUI extends JFrame {
 			}
 		});
 		frame = this;
-		JButton button = new JButton("<");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFrame atzekoa = MainGUI.atzeraEgin();
-				frame.setVisible(false);
-				atzekoa.setVisible(true);
-			}
-		});
-		button.setBounds(21, 10, 41, 27);
-		getContentPane().add(button);
+		atzeraButoiaSortu(frame);
 
 		scrollPaneEvents.setViewportView(tableEvents);
 		tableModelEvents = new DefaultTableModel(null, columnNamesEvents);

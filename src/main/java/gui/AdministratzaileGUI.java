@@ -22,7 +22,7 @@ import java.util.Vector;
 import java.awt.event.ActionEvent;
 
 
-public class AdministratzaileGUI extends JFrame {
+public class AdministratzaileGUI extends GUI {
 
 	private JPanel contentPane;
 	private static AdministratzaileGUI frame;

@@ -38,7 +38,7 @@ import exceptions.EmaitzaEzinIpini;
 
 import javax.swing.ScrollPaneConstants;
 
-public class EmaitzakIpiniGUI extends JFrame {
+public class EmaitzakIpiniGUI extends GUI {
 
 	private static final long serialVersionUID = 1L;
 

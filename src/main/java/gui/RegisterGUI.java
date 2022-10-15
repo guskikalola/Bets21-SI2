@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 
-public class RegisterGUI extends JFrame {
+public class RegisterGUI extends GUI {
 
 	private JPanel contentPane;
 	private JPasswordField password;
@@ -164,7 +164,7 @@ public class RegisterGUI extends JFrame {
 						System.out.println(e);
 						if (er instanceof Erabiltzailea) {
 							frame.setVisible(false);
-							ErabiltzaileGUI era = new ErabiltzaileGUI((Erabiltzailea) er);
+				GUI era = new ErabiltzaileGUI((Erabiltzailea) er);
 							era.setVisible(true);
 						} else if (er instanceof Admin) {
 							frame.setVisible(false);

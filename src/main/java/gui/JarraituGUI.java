@@ -31,7 +31,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
 import java.awt.Font;
 
-public class JarraituGUI extends JFrame {
+public class JarraituGUI extends GUI {
 
 	private JPanel contentPane;
 	private JarraituGUI frame;
@@ -39,7 +39,6 @@ public class JarraituGUI extends JFrame {
 	private JTable tableEzJarraitzen;
 	private JScrollPane jarraitzenPane;
 	private JScrollPane ezJarraitzenPane;
-	private JButton button;
 	private JButton bGehituJarraitu;
 	private JButton bEzabatuJarraitu;
 	private JLabel lblEzJarraitzen;
@@ -86,17 +85,7 @@ public class JarraituGUI extends JFrame {
 
 		// Atzera egiteko butoia
 		frame = this;
-		button = new JButton("<");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BLFacade facade = MainGUI.getBusinessLogic();
-				JFrame atzekoa = MainGUI.atzeraEgin();
-				frame.setVisible(false);
-				atzekoa.setVisible(true);
-			}
-		});
-		button.setBounds(12, 0, 41, 27);
-		this.getContentPane().add(button);
+		atzeraButoiaSortu(frame);
 
 		zutabeIzenak = new String[2];
 		zutabeIzenak[0] = ResourceBundle.getBundle("Etiquetas").getString("User");

@@ -27,7 +27,7 @@ import com.toedter.calendar.JCalendar;
 import businessLogic.BLFacade;
 import configuration.UtilDate;
 
-public class GertaeraEzabatuGUI extends JFrame {
+public class GertaeraEzabatuGUI extends GUI {
 	private static final long serialVersionUID = 1L;
 
 	private final JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));

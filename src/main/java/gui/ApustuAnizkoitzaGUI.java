@@ -41,7 +41,7 @@ import domain.Kuota;
 import domain.Question;
 import exceptions.ApustuaEzDaEgin;
 
-public class ApustuAnizkoitzaGUI extends JFrame {
+public class ApustuAnizkoitzaGUI extends GUI {
 
 	private static final long serialVersionUID = 1L;
 

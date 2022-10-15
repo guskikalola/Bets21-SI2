@@ -19,10 +19,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 
-public class ErabiltzaileGUI extends JFrame {
+public class ErabiltzaileGUI extends GUI {
 
 	private JPanel contentPane;
-	private static ErabiltzaileGUI frame;
 	private Erabiltzailea erabiltzailea;
 	private JLabel lblSaldoa;
 
@@ -47,6 +46,7 @@ public class ErabiltzaileGUI extends JFrame {
 	 */
 	public ErabiltzaileGUI(Erabiltzailea erabiltzailea) {
 
+		super();
 		frame = this;
 		this.erabiltzailea = erabiltzailea;
 
@@ -87,16 +87,7 @@ public class ErabiltzaileGUI extends JFrame {
 				ResourceBundle.getBundle("Etiquetas").getString("kaixo") + ", " + this.erabiltzailea.getIzena());
 
 		// Atzera egiteko butoia
-		JButton button = new JButton("<");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFrame atzekoa = MainGUI.atzeraEgin();
-				frame.setVisible(false);
-				atzekoa.setVisible(true);
-			}
-		});
-		button.setBounds(12, 0, 41, 27);
-		contentPane.add(button);
+		atzeraButoiaSortu(frame);
 
 		JButton btnDiruaSartu = new JButton(ResourceBundle.getBundle("Etiquetas").getString("dirua_sartu"));
 		btnDiruaSartu.addActionListener(new ActionListener() {
@@ -129,7 +120,7 @@ public class ErabiltzaileGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				MainGUI.eguneratuHistorala(frame);
 				frame.setVisible(false);
-				ApustuakEginGUI apustua = new ApustuakEginGUI();
+				GUI apustua = new ApustuakEginGUI();
 				apustua.setVisible(true);
 
 			}

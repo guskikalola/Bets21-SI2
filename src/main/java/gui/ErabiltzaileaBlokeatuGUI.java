@@ -34,7 +34,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class ErabiltzaileaBlokeatuGUI extends JFrame {
+public class ErabiltzaileaBlokeatuGUI extends GUI {
 
 	private JPanel contentPane;
 	private static ErabiltzaileaBlokeatuGUI frame;

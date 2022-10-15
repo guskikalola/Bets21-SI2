@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class BlokeoGUI extends JFrame {
+public class BlokeoGUI extends GUI {
 
 	private JPanel contentPane;
 	private static BlokeoGUI frame;
