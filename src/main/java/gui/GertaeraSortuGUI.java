@@ -36,20 +36,6 @@ public class GertaeraSortuGUI extends GUI {
 	private JButton CreateNewButton;
 	private JLabel CreateNewEventLabel;
 	
-	private String urtarrila= new String(ResourceBundle.getBundle("Etiquetas").getString("January"));
-	private String otsaila = new String(ResourceBundle.getBundle("Etiquetas").getString("February"));
-	private String martxoa = new String(ResourceBundle.getBundle("Etiquetas").getString("March"));
-	private String apirila = new String(ResourceBundle.getBundle("Etiquetas").getString("April"));
-	private String maiatza = new String(ResourceBundle.getBundle("Etiquetas").getString("May"));
-	private String ekaina = new String(ResourceBundle.getBundle("Etiquetas").getString("June"));
-	private String uztaila = new String(ResourceBundle.getBundle("Etiquetas").getString("July"));
-	private String abuztua = new String(ResourceBundle.getBundle("Etiquetas").getString("August"));
-	private String iraila = new String(ResourceBundle.getBundle("Etiquetas").getString("September"));
-	private String urria = new String(ResourceBundle.getBundle("Etiquetas").getString("October"));
-	private String azaroa = new String(ResourceBundle.getBundle("Etiquetas").getString("November"));
-	private String abendua = new String(ResourceBundle.getBundle("Etiquetas").getString("December"));
-	
-	
 	private static GertaeraSortuGUI frame;
 
 	/**

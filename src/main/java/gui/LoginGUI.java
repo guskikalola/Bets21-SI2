@@ -129,7 +129,7 @@ public class LoginGUI extends GUI {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.setVisible(false);
 				MainGUI.eguneratuHistorala(frame);
-				RegisterGUI rg = new RegisterGUI();
+				GUI rg = new RegisterGUI();
 				rg.setVisible(true);
 			}
 		});
