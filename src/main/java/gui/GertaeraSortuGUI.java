@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 
-public class GertaeraSortuGUI extends GUI {
+public class GertaeraSortuGUI extends GUIHilabetekoa {
 
 	private JPanel contentPane;
 	private JTextField textFieldDescription;

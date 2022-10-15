@@ -100,7 +100,7 @@ public class AdministratzaileGUI extends GUI {
 			public void actionPerformed(ActionEvent e) {
 				MainGUI.eguneratuHistorala(frame);
 				frame.setVisible(false);
-				GertaeraSortuGUI ceGUI = new GertaeraSortuGUI();
+				GUIHilabetekoa ceGUI = new GertaeraSortuGUI();
 				ceGUI.setVisible(true);
 			}
 		});
