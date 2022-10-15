@@ -24,6 +24,7 @@ public class ErabiltzaileGUI extends GUI {
 	private JPanel contentPane;
 	private Erabiltzailea erabiltzailea;
 	private JLabel lblSaldoa;
+	private static JFrame frame;
 
 	/**
 	 * Launch the application.

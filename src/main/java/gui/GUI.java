@@ -10,8 +10,6 @@ import javax.swing.JFrame;
 
 public class GUI extends JFrame {
 
-	protected static ErabiltzaileGUI frame;
-
 	public GUI() throws HeadlessException {
 		super();
 	}
