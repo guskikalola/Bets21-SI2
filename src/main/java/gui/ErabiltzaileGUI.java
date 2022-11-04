@@ -152,7 +152,7 @@ public class ErabiltzaileGUI extends GUI {
 			public void actionPerformed(ActionEvent e) {
 				MainGUI.eguneratuHistorala(frame);
 				frame.setVisible(false);
-				ApustuAnizkoitzaGUI apustua = new ApustuAnizkoitzaGUI();
+				GUI apustua = new ApustuAnizkoitzaGUI();
 				apustua.setVisible(true);
 			}
 		});

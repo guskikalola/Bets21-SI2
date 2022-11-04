@@ -36,6 +36,8 @@ import businessLogic.BLFacade;
 import configuration.UtilDate;
 import domain.Apustua;
 import domain.Erabiltzailea;
+import domain.Event;
+import domain.ExtendedIterator;
 import domain.Kuota;
 import domain.Question;
 import exceptions.ApustuaEzDaEgin;
@@ -182,17 +184,25 @@ public class ApustuakEginGUI extends GUI {
 
 						BLFacade facade = MainGUI.getBusinessLogic();
 
-						Vector<domain.Event> events = facade.getEvents(firstDay);
-
-						if (events.isEmpty())
+						//Vector<domain.Event> events = facade.getEvents(firstDay);
+						ExtendedIterator<domain.Event> i = facade.getEvents(firstDay); 
+						
+						i.goFirst();
+						
+						//if (events.isEmpty())
+						if(!i.hasNext())
 							jLabelEvents.setText(ResourceBundle.getBundle(etiketak).getString("NoEvents") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
 						else
 							jLabelEvents.setText(ResourceBundle.getBundle(etiketak).getString("Events") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
-						for (domain.Event ev : events) {
+						
+						//for (domain.Event ev : events) {
+						while(i.hasNext()) {
 							Vector<Object> row = new Vector<Object>();
-
+							
+							domain.Event ev = (domain.Event)i.next();
+							
 							System.out.println("Events " + ev);
 
 							row.add(ev.getEventNumber());

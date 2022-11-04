@@ -26,6 +26,7 @@ import com.toedter.calendar.JCalendar;
 
 import businessLogic.BLFacade;
 import configuration.UtilDate;
+import domain.ExtendedIterator;
 
 public class GertaeraEzabatuGUI extends GUI {
 	private static final long serialVersionUID = 1L;
@@ -141,15 +142,21 @@ public class GertaeraEzabatuGUI extends GUI {
 
 						BLFacade facade = MainGUI.getBusinessLogic();
 
-						Vector<domain.Event> events = facade.getEvents(firstDay);
+//						Vector<domain.Event> events = facade.getEvents(firstDay);
+						ExtendedIterator<domain.Event> i = facade.getEvents(firstDay); 
 
-						if (events.isEmpty())
+//						if (events.isEmpty())
+						if (!i.hasNext())
 							jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
 						else
 							jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("Events") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
-						for (domain.Event ev : events) {
+						
+//						for (domain.Event ev : events) {
+						while(i.hasNext()) {
+							
+							domain.Event ev = (domain.Event)i.next();
 							Vector<Object> row = new Vector<Object>();
 
 							System.out.println("Events " + ev);
