@@ -23,6 +23,7 @@ import domain.ApustuaContainer;
 import domain.BlokeoContainer;
 import domain.Blokeoa;
 import domain.Erabiltzailea;
+import domain.ErabiltzaileaContainer;
 import domain.Event;
 import domain.Kuota;
 import domain.Mezua;
@@ -410,5 +411,13 @@ public class BLFacadeImplementation implements BLFacade {
 		}
 		dbManager.close();
 		return blC;
+	}
+
+	@Override
+	public ErabiltzaileaContainer getErabiltzaileaContainer(Erabiltzailea e) {
+		dbManager.open(false);
+		Erabiltzailea eDB = dbManager.getErabiltzaileaIzenarekin(e.getIzena());
+		dbManager.close();
+		return new ErabiltzaileaContainer(eDB);
 	}
 }

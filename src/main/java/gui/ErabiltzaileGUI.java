@@ -5,10 +5,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
 import businessLogic.BLFacade;
 import domain.Erabiltzailea;
+import domain.ErabiltzaileaApustuakAdapter;
+import domain.ErabiltzaileaContainer;
 import domain.Pertsona;
 
 import javax.swing.JLabel;
@@ -170,6 +173,19 @@ public class ErabiltzaileGUI extends GUI {
 		});
 		btnMezuabidali.setBounds(228, 176, 184, 27);
 		contentPane.add(btnMezuabidali);
+		
+		String tableOfUser = ResourceBundle.getBundle("Etiquetas").getString("ErabiltzaileGUI.btnTableOfUser.text");
+		tableOfUser = tableOfUser.replace("<user>", this.erabiltzailea.getIzena());
+		JButton btnTableOfUser = new JButton(tableOfUser); //$NON-NLS-1$ //$NON-NLS-2$
+		btnTableOfUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ErabiltzaileaContainer eDB = facade.getErabiltzaileaContainer(erabiltzailea);
+				JFrame apustuTaula = new ApustuenTaula(new ErabiltzaileaApustuakAdapter(eDB));
+				apustuTaula.setVisible(true);
+			}
+		});
+		btnTableOfUser.setBounds(22, 215, 390, 27);
+		contentPane.add(btnTableOfUser);
 
 		btnApustuaezabatu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -15,6 +15,7 @@ import domain.ApustuaContainer;
 import domain.BlokeoContainer;
 import domain.Blokeoa;
 import domain.Erabiltzailea;
+import domain.ErabiltzaileaContainer;
 import domain.Event;
 import domain.Kuota;
 import domain.Mezua;
@@ -120,5 +121,7 @@ public interface BLFacade  {
 	
 	@WebMethod JarraitzenContainer jarraitzenDu(Erabiltzailea er, Erabiltzailea nori);
 	@WebMethod List<JarraitzenContainer> getJarraitzen(Erabiltzailea er);
+	
+	@WebMethod ErabiltzaileaContainer getErabiltzaileaContainer(Erabiltzailea e);
 	
 }
