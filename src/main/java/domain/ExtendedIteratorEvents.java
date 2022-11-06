@@ -7,16 +7,16 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ExtendedIteratorEvents implements ExtendedIterator<Event> {
+public class ExtendedIteratorEvents implements ExtendedIterator<domain.Event> {
 
-	Vector<Event> events;
+	Vector<domain.Event> events;
 	int index = 0;
 	
 	public ExtendedIteratorEvents() {
-		this.events = new Vector<Event>();
+		this.events = new Vector<domain.Event>();
 	}
 
-	public ExtendedIteratorEvents(Vector<Event> events) {
+	public ExtendedIteratorEvents(Vector<domain.Event> events) {
 		this.events = events;
 	}
 
@@ -26,15 +26,15 @@ public class ExtendedIteratorEvents implements ExtendedIterator<Event> {
 	}
 
 	@Override
-	public Event next() {
+	public domain.Event next() {
 		Event ev = events.get(index);
 		index++;
 		return ev;
 	}
 
 	@Override
-	public Event previous() {
-		Event ev = events.get(index-1);
+	public domain.Event previous() {
+		domain.Event ev = events.get(index-1);
 		index--;
 		return ev;
 	}

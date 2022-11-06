@@ -45,7 +45,7 @@ public class IteratorFroga {
 			ExtendedIterator<Event> i = appFacadeInterface.getEvents(date);
 
 
-			Event ev;
+			domain.Event ev;
 			i.goLast();
 			while (i.hasPrevious()) {
 				ev = i.previous();
@@ -54,7 +54,7 @@ public class IteratorFroga {
 			// Nahiz eta suposatu hasierara ailegatu garela, eragiketa egiten dugu.
 			i.goFirst();
 			while (i.hasNext()) {
-				ev = (Event) i.next();
+				ev = (domain.Event) i.next();
 				System.out.println(ev.toString());
 			}
 
