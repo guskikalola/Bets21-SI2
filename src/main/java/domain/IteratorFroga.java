@@ -1,7 +1,8 @@
 package domain;
 
 import java.awt.Color;
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -10,6 +11,7 @@ import javax.swing.UIManager;
 import businessLogic.BLFacade;
 import businessLogic.BusinessFactory;
 import configuration.ConfigXML;
+import configuration.UtilDate;
 import gui.MainGUI;
 
 public class IteratorFroga {
@@ -27,18 +29,21 @@ public class IteratorFroga {
 		Locale.setDefault(new Locale(c.getLocale()));
 
 		BusinessFactory bf = new BusinessFactory();
+		BLFacade blFacade = bf.createBusiness(c);
 
 		
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date date;
 		try {
+
 			BLFacade appFacadeInterface = null;
 			appFacadeInterface = bf.createBusiness(c);
 
 			
 			date = (Date) sdf.parse("15/11/2022");
 			ExtendedIterator<Event> i = appFacadeInterface.getEvents(date);
+
 
 			Event ev;
 			i.goLast();

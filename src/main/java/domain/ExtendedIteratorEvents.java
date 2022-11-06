@@ -3,11 +3,18 @@ package domain;
 import java.beans.EventSetDescriptor;
 import java.util.Vector;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ExtendedIteratorEvents implements ExtendedIterator<Event> {
 
 	Vector<Event> events;
 	int index = 0;
-	int size = events.size();
+	
+	public ExtendedIteratorEvents() {
+		this.events = new Vector<Event>();
+	}
 
 	public ExtendedIteratorEvents(Vector<Event> events) {
 		this.events = events;
@@ -15,7 +22,7 @@ public class ExtendedIteratorEvents implements ExtendedIterator<Event> {
 
 	@Override
 	public boolean hasNext() {
-		return index < size - 1;
+		return index < events.size() - 1;
 	}
 
 	@Override
@@ -34,7 +41,7 @@ public class ExtendedIteratorEvents implements ExtendedIterator<Event> {
 
 	@Override
 	public boolean hasPrevious() {
-		return index != 0;
+		return index > 0;
 
 	}
 
@@ -46,7 +53,7 @@ public class ExtendedIteratorEvents implements ExtendedIterator<Event> {
 
 	@Override
 	public void goLast() {
-		index = size - 1;
+		index = events.size() - 1;
 
 	}
 

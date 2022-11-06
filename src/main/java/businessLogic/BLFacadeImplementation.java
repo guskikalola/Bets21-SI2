@@ -123,7 +123,7 @@ public class BLFacadeImplementation implements BLFacade {
 	 * @return event iteratpr
 	 */
 	@WebMethod
-	public ExtendedIterator<Event> getEvents(Date date) {
+	public ExtendedIteratorEvents getEvents(Date date) {
 		
 		dbManager.open(false);
 		Vector<Event> events = dbManager.getEvents(date);
