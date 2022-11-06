@@ -17,6 +17,7 @@ import domain.Blokeoa;
 import domain.Erabiltzailea;
 import domain.Event;
 import domain.ExtendedIterator;
+import domain.ExtendedIteratorEvents;
 import domain.Kuota;
 import domain.Mezua;
 import domain.MezuaContainer;
@@ -58,7 +59,7 @@ public interface BLFacade  {
 	 * @param date in which events are retrieved
 	 * @return collection of events
 	 */
-	@WebMethod public ExtendedIterator<Event> getEvents(Date date);
+	@WebMethod public ExtendedIteratorEvents getEvents(Date date);
 	
 	/**
 	 * This method retrieves from the database the dates a month for which there are events
