@@ -3,32 +3,33 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ApustuaContainerLuzatuta {
-	ApustuaContainer ap;
+	Apustua apustua;
 	List<KuotaContainer> kuotak;
-	Double diruKop;
 	
 	public ApustuaContainerLuzatuta() {
-		ap = null;
+		apustua = null;
 		kuotak = new ArrayList<>();
-		diruKop = 0.0;
 	}
 	
 	public ApustuaContainerLuzatuta(Apustua a) {
-		ap = new ApustuaContainer(a);
+		apustua = a;
 		kuotak = new ArrayList<>();
-		diruKop = a.getDiruKop();
 		for(Kuota k : a.getKuotak()) {
 			kuotak.add(new KuotaContainer(k));
 		}
 	}
 
-	public ApustuaContainer getApustua() {
-		return ap;
+	public Apustua getApustua() {
+		return apustua;
 	}
 
-	public void setAp(ApustuaContainer ap) {
-		this.ap = ap;
+	public void setApustua(Apustua ap) {
+		this.apustua = ap;
 	}
 
 	public List<KuotaContainer> getKuotak() {
@@ -39,7 +40,4 @@ public class ApustuaContainerLuzatuta {
 		this.kuotak = kuotak;
 	}
 
-	public Double getDiruKop() {
-		return diruKop;
-	}
 }

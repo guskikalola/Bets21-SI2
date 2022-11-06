@@ -179,8 +179,8 @@ public class ErabiltzaileGUI extends GUI {
 		JButton btnTableOfUser = new JButton(tableOfUser); //$NON-NLS-1$ //$NON-NLS-2$
 		btnTableOfUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ErabiltzaileaContainer eDB = facade.getErabiltzaileaContainer(erabiltzailea);
-				JFrame apustuTaula = new ApustuenTaula(new ErabiltzaileaApustuakAdapter(eDB));
+				ErabiltzaileaApustuakAdapter eAdapter = facade.getErabAdapter(erabiltzailea);
+				JFrame apustuTaula = new ApustuenTaulaGUI(eAdapter);
 				apustuTaula.setVisible(true);
 			}
 		});

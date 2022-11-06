@@ -16,7 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.GridLayout;
 
-public class ApustuenTaula extends JFrame {
+public class ApustuenTaulaGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable apustuakTaula;
@@ -28,7 +28,7 @@ public class ApustuenTaula extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ApustuenTaula frame = new ApustuenTaula(new ErabiltzaileaApustuakAdapter(new ErabiltzaileaContainer(new Erabiltzailea("a","b",new Date()))));
+					ApustuenTaulaGUI frame = new ApustuenTaulaGUI(new ErabiltzaileaApustuakAdapter(new ErabiltzaileaContainer(new Erabiltzailea("a","b",new Date()))));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class ApustuenTaula extends JFrame {
 	 * Create the frame.
 	 * @param erabiltzaileaApustuakAdapter 
 	 */
-	public ApustuenTaula(ErabiltzaileaApustuakAdapter erabiltzaileaApustuakAdapter) {
+	public ApustuenTaulaGUI(ErabiltzaileaApustuakAdapter erabiltzaileaApustuakAdapter) {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
