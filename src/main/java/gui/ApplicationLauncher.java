@@ -29,7 +29,7 @@ public class ApplicationLauncher {
 		MainGUI a = new MainGUI();
 		a.setVisible(true);
 
-		BusinessFactory bf = null;
+		BusinessFactory bf = new BusinessFactory();
 	
 		// LoginGUI lG = new LoginGUI();
 		// lG.setVisible(true);
@@ -39,7 +39,7 @@ public class ApplicationLauncher {
 //			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
 //			UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-			appFacadeInterface = bf.createBusiness(c, appFacadeInterface);
+			appFacadeInterface = bf.createBusiness(c);
 			/*
 			 * if (c.getDataBaseOpenMode().equals("initialize"))
 			 * appFacadeInterface.initializeBD();
