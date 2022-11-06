@@ -35,32 +35,39 @@ public class IteratorFroga {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date date;
+		
+		String print = "AAAAAAAAAAAAAA";
+		
 		try {
 
 			BLFacade appFacadeInterface = null;
 			appFacadeInterface = bf.createBusiness(c);
 
-			
 			date = (Date) sdf.parse("15/11/2022");
 			ExtendedIterator<Event> i = appFacadeInterface.getEvents(date);
-
 
 			domain.Event ev;
 			i.goLast();
 			while (i.hasPrevious()) {
 				ev = i.previous();
 				System.out.println(ev.toString());
+				print +=" "+ ev.toString();
 			}
 			// Nahiz eta suposatu hasierara ailegatu garela, eragiketa egiten dugu.
 			i.goFirst();
 			while (i.hasNext()) {
 				ev = (domain.Event) i.next();
 				System.out.println(ev.toString());
+				print +=" "+ ev.toString();
+
 			}
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
+			
+		System.out.println(print);
+		
 	}
 }
