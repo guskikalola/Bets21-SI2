@@ -3,8 +3,6 @@ package domain;
 import java.beans.EventSetDescriptor;
 import java.util.Vector;
 
-import gui.ExtendedIterator;
-
 public class ExtendedIteratorEvents implements ExtendedIterator<Event> {
 
 	Vector<Event> events;

@@ -10,10 +10,10 @@ import configuration.ConfigXML;
 import dataAccess.DataAccess;
 
 public class BusinessFactory {
-	public BLFacade createBusiness(ConfigXML c, BLFacade a) throws Exception{
-		
-		BLFacade appFacadeInterface = a;
-		
+	public BLFacade createBusiness(ConfigXML c) throws Exception {
+
+		BLFacade appFacadeInterface;
+
 		if (c.isBusinessLogicLocal()) {
 
 			// In this option the DataAccess is created by FacadeImplementationWS
@@ -44,7 +44,7 @@ public class BusinessFactory {
 
 			appFacadeInterface = service.getPort(BLFacade.class);
 		}
-		
+
 		return appFacadeInterface;
 	}
 }
