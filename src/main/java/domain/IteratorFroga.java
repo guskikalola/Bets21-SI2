@@ -28,25 +28,17 @@ public class IteratorFroga {
 
 		BusinessFactory bf = new BusinessFactory();
 
-	/*	
 		
-		try {
-			BLFacade appFacadeInterface = null;
-			appFacadeInterface = bf.createBusiness(c);
-	
-		} catch (Exception e) {
 
-			System.out.println("Error in ApplicationLauncher: " + e.toString());
-		}
-		// a.pack();
-
-		
-*/
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date date;
 		try {
+			BLFacade appFacadeInterface = null;
+			appFacadeInterface = bf.createBusiness(c);
+
+			
 			date = (Date) sdf.parse("15/11/2022");
-			ExtendedIterator<Event> i = blFacade.getEvents(date);
+			ExtendedIterator<Event> i = appFacadeInterface.getEvents(date);
 
 			Event ev;
 			i.goLast();
