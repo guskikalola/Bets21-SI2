@@ -10,9 +10,11 @@ import configuration.ConfigXML;
 import dataAccess.DataAccess;
 
 public class BusinessFactory {
+
 	public BLFacade createBusiness(ConfigXML c) throws Exception {
 
 		BLFacade appFacadeInterface;
+
 
 		if (c.isBusinessLogicLocal()) {
 
