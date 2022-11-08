@@ -26,6 +26,8 @@ import domain.Erabiltzailea;
 import domain.ErabiltzaileaApustuakAdapter;
 import domain.ErabiltzaileaContainer;
 import domain.Event;
+import domain.ExtendedIterator;
+import domain.ExtendedIteratorEvents;
 import domain.Kuota;
 import domain.Mezua;
 import domain.MezuaContainer;
@@ -108,12 +110,28 @@ public class BLFacadeImplementation implements BLFacade {
 	 * @param date in which events are retrieved
 	 * @return collection of events
 	 */
-	@WebMethod
+/*	@WebMethod
 	public Vector<Event> getEvents(Date date) {
 		dbManager.open(false);
 		Vector<Event> events = dbManager.getEvents(date);
 		dbManager.close();
 		return events;
+	}*/
+	
+	/**
+	 * This method invokes the data access to retrieve the events of a given date with a iterator
+	 * 
+	 * @param date in which events are retrieved
+	 * @return event iteratpr
+	 */
+	@WebMethod
+	public ExtendedIteratorEvents getEvents(Date date) {
+		
+		dbManager.open(false);
+		Vector<domain.Event> events = dbManager.getEvents(date);
+		dbManager.close();
+		
+		return new ExtendedIteratorEvents(events);
 	}
 
 	/**
@@ -267,7 +285,7 @@ public class BLFacadeImplementation implements BLFacade {
 		dbManager.close();
 		return er;
 	}
-	
+
 	@Override
 	@WebMethod
 	public List<Pertsona> getPertsonaGuztiak() {
@@ -276,17 +294,16 @@ public class BLFacadeImplementation implements BLFacade {
 		dbManager.close();
 		return er;
 	}
-	
+
 	@Override
 	@WebMethod
 	public boolean gertaeraBikoiztu(Date data, String deskribapena, Event oldEvent) {
 		dbManager.open(false);
 		boolean emaitza = false;
-		emaitza = dbManager.gertaeraBikoiztu( data, deskribapena,  oldEvent);
+		emaitza = dbManager.gertaeraBikoiztu(data, deskribapena, oldEvent);
 		dbManager.close();
 		return emaitza;
 	}
-	
 
 	@Override
 	public boolean erabiltzaileaJarraitu(Erabiltzailea unekoErab, Erabiltzailea aukeratutakoErabiltzailea,
@@ -296,7 +313,6 @@ public class BLFacadeImplementation implements BLFacade {
 		dbManager.close();
 		return em;
 	}
-	
 
 	@Override
 	public JarraitzenContainer jarraitzenDu(Erabiltzailea er, Erabiltzailea nori) {
@@ -322,8 +338,6 @@ public class BLFacadeImplementation implements BLFacade {
 		return em;
 	}
 
-
-
 	@Override
 	public Apustua apustuAnizkoitzaEgin(Erabiltzailea er, List<Kuota> kuotaLista, double diruKop)
 			throws ApustuaEzDaEgin {
@@ -340,7 +354,7 @@ public class BLFacadeImplementation implements BLFacade {
 		dbManager.close();
 		return p;
 	}
-	
+
 	@Override
 	public Erabiltzailea getErabiltzailea(String izena) {
 		dbManager.open(false);
@@ -359,22 +373,22 @@ public class BLFacadeImplementation implements BLFacade {
 		dbManager.close();
 		return kop;
 	}
-	
+
 	@Override
 	public List<Mezua> getMezuGuztiak(Pertsona m, Pertsona nori) {
 		dbManager.open(false);
-		List<Mezua> mezu= dbManager.getMezuGuztiak(m, nori);
+		List<Mezua> mezu = dbManager.getMezuGuztiak(m, nori);
 		dbManager.close();
 		return mezu;
 	}
-	
+
 	@Override
 	public List<MezuaContainer> getMezuGuztiakContainer(Pertsona m, Pertsona nori) {
 		dbManager.open(false);
 		List<MezuaContainer> mezuList = new ArrayList<MezuaContainer>();
-		List<Mezua> me=  dbManager.getMezuGuztiak(m, nori);
-		for(Mezua mez: me) {
-			MezuaContainer mezuC= new MezuaContainer();
+		List<Mezua> me = dbManager.getMezuGuztiak(m, nori);
+		for (Mezua mez : me) {
+			MezuaContainer mezuC = new MezuaContainer();
 			mezuC.setM(mez);
 			mezuC.setNor(mez.getNor());
 			mezuC.setNori(mez.getNori());
@@ -387,25 +401,25 @@ public class BLFacadeImplementation implements BLFacade {
 	@Override
 	public Mezua mezuaBidali(Pertsona m, Pertsona nori, String mezua) throws MezuaEzDaZuzena {
 		dbManager.open(false);
-		Mezua mezu= dbManager.mezuaBidali(m, nori, mezua);
+		Mezua mezu = dbManager.mezuaBidali(m, nori, mezua);
 		dbManager.close();
 		return mezu;
 	}
-	
+
 	@Override
 	public Blokeoa erabiltzaileaBlokeatu(Admin a, Erabiltzailea ei, String arrazoia) throws MezuaEzDaZuzena {
 		dbManager.open(false);
-		Blokeoa bl= dbManager.erabiltzaileaBlokeatu(a, ei, arrazoia);
+		Blokeoa bl = dbManager.erabiltzaileaBlokeatu(a, ei, arrazoia);
 		dbManager.close();
 		return bl;
 	}
-	
-	@Override 
+
+	@Override
 	public BlokeoContainer getBlokeoContainer(Erabiltzailea e) {
 		dbManager.open(false);
-		BlokeoContainer blC= new BlokeoContainer();
-		Blokeoa blokeo=  dbManager.getBlokeoContainer(e);
-		if(blC!=null) {
+		BlokeoContainer blC = new BlokeoContainer();
+		Blokeoa blokeo = dbManager.getBlokeoContainer(e);
+		if (blC != null) {
 			blC.setBl(blokeo);
 			blC.setNor(blokeo.getNor());
 			blC.setNori(blokeo.getNori());
